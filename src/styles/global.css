@@ -1,0 +1,256 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=DM+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+  --bg-deep: #080604;
+  --bg-surface: #0e0c0a;
+  --bg-card: rgba(255, 255, 255, 0.03);
+  --gold-core: #c9a84c;
+  --gold-light: #e2cc7e;
+  --gold-dim: #8a7230;
+  --gold-glow: rgba(201, 168, 76, 0.10);
+  --text-primary: #e8e4dc;
+  --text-secondary: #8a857c;
+  --text-muted: #5e5a52;
+
+  /* Coherent data colors */
+  --c-views: #6ee7b7;       /* soft mint for all view counts */
+  --c-spend: #fbbf24;       /* warm gold for all spend/cost */
+  --c-cpm: #a78bfa;         /* soft purple for all CPM values */
+  --c-qrt: #67e8f9;         /* cyan for QRT specific */
+  --c-median: #f9a8d4;      /* pink for median */
+
+  /* Bar CPM colors */
+  --cpm-good: #6ee7b7;
+  --cpm-ok: #fbbf24;
+  --cpm-bad: #f87171;
+
+  --border-glass: rgba(255, 255, 255, 0.07);
+  --border-gold: rgba(201, 168, 76, 0.15);
+
+  --font-display: 'Outfit', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-body: 'DM Sans', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body, #root {
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ===== PARTICLE CANVAS ===== */
+.particles-canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ===== GOLDEN AURA BG ===== */
+.aura-bg {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(180, 140, 50, 0.10) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 20% 20%, rgba(160, 120, 40, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 40% at 80% 30%, rgba(190, 150, 60, 0.05) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 50% at 50% 100%, rgba(20, 15, 8, 0.8) 0%, transparent 60%);
+}
+
+/* ===== LIQUID GLASS CARD (matching OpenArt screenshot) ===== */
+.glass-card {
+  position: relative;
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.045) 0%,
+    rgba(255, 255, 255, 0.015) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.45s cubic-bezier(0.19, 1, 0.22, 1),
+              box-shadow 0.45s cubic-bezier(0.19, 1, 0.22, 1),
+              border-color 0.35s ease;
+}
+
+.glass-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 10%, rgba(255,255,255,0.12) 50%, transparent 90%);
+  pointer-events: none;
+}
+
+.glass-card:hover {
+  transform: translateY(-6px);
+  box-shadow:
+    0 24px 48px rgba(0, 0, 0, 0.35),
+    0 0 60px rgba(201, 168, 76, 0.06);
+  border-color: rgba(255, 255, 255, 0.13);
+}
+
+/* Shine sweep */
+.glass-card .shine {
+  position: absolute;
+  top: 0; left: -120%;
+  width: 80%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent);
+  transition: left 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+  pointer-events: none;
+}
+.glass-card:hover .shine { left: 160%; }
+
+/* ===== DATA GLASS CARD (for dashboard stat cards) ===== */
+.data-card {
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.04) 0%,
+    rgba(255, 255, 255, 0.015) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 14px;
+  padding: 20px 24px;
+  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  flex: 1 1 200px;
+  min-width: 170;
+}
+
+.data-card:hover {
+  border-color: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.fade-up { animation: fadeUp 0.7s cubic-bezier(0.19, 1, 0.22, 1) both; }
+.fade-in { animation: fadeIn 0.5s ease both; }
+.s1 { animation-delay: 0.08s; }
+.s2 { animation-delay: 0.16s; }
+.s3 { animation-delay: 0.24s; }
+.s4 { animation-delay: 0.32s; }
+.s5 { animation-delay: 0.40s; }
+
+/* ===== BACK BUTTON ===== */
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.back-btn:hover {
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--text-primary);
+  transform: translateX(-3px);
+}
+
+/* ===== CAMPAIGN TABS ===== */
+.campaign-tab {
+  padding: 10px 16px;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-muted);
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: all 0.25s ease;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+.campaign-tab:hover {
+  color: var(--text-secondary);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.campaign-tab.active {
+  font-weight: 600;
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+/* ===== MONTH CARD ===== */
+.month-card {
+  position: relative;
+  background: linear-gradient(160deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.015) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+  padding: 36px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+  overflow: hidden;
+}
+.month-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 10%, rgba(255,255,255,0.1) 50%, transparent 90%);
+}
+.month-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.3);
+  border-color: rgba(255,255,255,0.12);
+}
+.month-card.empty { opacity: 0.35; cursor: default; }
+.month-card.empty:hover { transform: none; box-shadow: none; border-color: rgba(255,255,255,0.07); }
+
+/* ===== INFO BANNER ===== */
+.info-banner {
+  background: rgba(167, 139, 250, 0.06);
+  border: 1px solid rgba(167, 139, 250, 0.15);
+  border-radius: 10px;
+  padding: 14px 20px;
+  margin-bottom: 8px;
+  font-size: 12px;
+  color: rgba(167, 139, 250, 0.8);
+}
+
+/* ===== SECTION DIVIDER ===== */
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 36px 0 18px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  padding-bottom: 12px;
+}
