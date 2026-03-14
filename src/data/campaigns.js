@@ -76,8 +76,58 @@ export const NB_PENDING = [];
 export const SD_LAUNCH = [{ views: 1500000, price: 1000 }];
 export const SR_LAUNCH = [{ views: 2100000, price: 2000 }];
 export const OS_LAUNCH = [{ views: 1000000, price: 1000 }];
-export const BH_LAUNCH = [{ views: 3400000, price: 2000 }];
-export const EC_LAUNCH = [{ views: 1300000, price: 1000 }];
+export const BH_LAUNCH = [
+  { label: "Trailer", views: 3400000, price: 2000 },
+  { label: "Episode 1", views: 2100000, price: 2000 },
+];
+export const EC_LAUNCH = [{ views: 1300000, price: 1000 }, { views: 808400, price: 400 }];
+export const KL3_LAUNCH = [{ views: 2200000, price: 2000 }];
+export const KL3C_LAUNCH = [{ views: 958000, price: 400 }];
+export const SO2_LAUNCH = [{ views: 2405000, price: 2000 }];
+
+// ========== VELLUM LAUNCH ==========
+// Views = thread views + QRT views for same creator (combined)
+// CPM calculated on thread price only
+export const VL_MAIN = [
+  { name: "Miguel", views: 308200, price: 275 },
+  { name: "Lucas Mestrel", views: 128300, price: 150 },
+  { name: "Chidanand", views: 110800, price: 150 },
+  { name: "Matias Schrank", views: 108700, price: 150 },
+  { name: "Marco IA", views: 86500, price: 150 },
+  { name: "Alex Inspira", views: 66900, price: 275 },
+  { name: "Rafael Estrela", views: 58933, price: 120 },
+  { name: "Jaynit", views: 56600, price: 175 },
+  { name: "Rafa Gonzalez", views: 56410, price: 120 },
+  { name: "Dhaval", views: 54000, price: 175 },
+  { name: "Amira", views: 51880, price: 300 },
+  { name: "Spider", views: 26600, price: 300 },
+  { name: "Manish", views: 25331, price: 125 },
+  { name: "Arsalan", views: 12130, price: 200 },
+  { name: "Kalsoom", views: 11500, price: 150 },
+  { name: "Rez", views: 7963, price: 125 },
+  { name: "Ivan IA", views: 5710, price: 200 },
+  { name: "Lucas IA", views: 4642, price: 150 },
+  { name: "Wasif", views: 2905, price: 15 },
+  { name: "Mad Pencil", views: 1186, price: 125 },
+];
+export const VL_LAUNCH = [{ views: 2000000, price: 2000 }];
+// 12 paid QRTs at $30 each
+export const VL_QRT_PAID = [
+  { name: "Parul Gautam", views: 25800 },
+  { name: "Heisenberg", views: 25500 },
+  { name: "Markandey", views: 25400 },
+  { name: "Oogie", views: 10700 },
+  { name: "David", views: 9223 },
+  { name: "Synthia", views: 9076 },
+  { name: "Lucas IA (QRT)", views: 7671 },
+  { name: "Pablo Evans", views: 5717 },
+  { name: "YokerAI", views: 5446 },
+  { name: "ADRIAN", views: 3952 },
+  { name: "ValerIA", views: 3845 },
+  { name: "JORDAN", views: 3491 },
+];
+export const VL_QRT_PAID_COST = 360;
+
 export const CAMPAIGN_META = {
   oa: { label: "OA Suite Launch", month: "feb26" },
   nb: { label: "Nano Banana 2", month: "feb26", monthDisplay: "February 2026 · March 2026" },
@@ -87,13 +137,16 @@ export const CAMPAIGN_META = {
   os: { label: "OpenArt Summit", month: "mar26" },
   bh: { label: "Bot House", month: "mar26" },
   ec: { label: "Embryom Chronicles: The Last Doctrine", month: "mar26" },
+  vl: { label: "Vellum Launch", month: "mar26" },
+  kl3: { label: "Kling 3 Motion Control", month: "mar26" },
+  kl3c: { label: "Kling 3.0 Challenge", month: "mar26" },
+  so2: { label: "Sora 2", month: "mar26" },
 };
 
-// Month registry — add new months here as data comes in
+// Month registry
 export const MONTHS = {
   feb26: { label: "February 2026", campaigns: ["oa", "nb", "sd", "sr"] },
-  mar26: { label: "March 2026", campaigns: ["nbm", "os", "bh", "ec"] },
+  mar26: { label: "March 2026", campaigns: ["nbm", "os", "bh", "ec", "vl", "kl3", "kl3c", "so2"] },
 };
 
-// Ordered for display
 export const MONTH_ORDER = ["feb26", "mar26"];
