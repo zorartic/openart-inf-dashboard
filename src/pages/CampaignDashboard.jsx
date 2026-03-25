@@ -11,6 +11,7 @@ import {
   SD_LAUNCH, SR_LAUNCH, OS_LAUNCH, BH_LAUNCH, EC_LAUNCH,
   VL_MAIN, VL_LAUNCH, VL_QRT_PAID, VL_QRT_PAID_COST,
   KL3_LAUNCH, KL3C_LAUNCH, SO2_LAUNCH,
+  OAW_MAIN, OAW_LAUNCH, OAW_QRT_PAID_COST, OAW_QRT_PAID_VIEWS,
   CAMPAIGN_META, MONTHS, MONTH_ORDER,
 } from "../data/campaigns";
 import ViewsCpmChart from "../components/ViewsCpmChart";
@@ -21,48 +22,53 @@ function campaignStats(id, fullNB = false) {
     const mV = sumV(OA_MAIN), mS = sumP(OA_MAIN);
     const qPV = sumV(OA_QRT_PAID), qFV = sumV(OA_QRT_FREE);
     const lV = sumV(OA_LAUNCH), lS = sumP(OA_LAUNCH);
-    return { id, mainData: OA_MAIN, launchPosts: OA_LAUNCH, hasInfluencers: true, mainViews: mV, mainSpend: mS, qrtViews: qPV + qFV, launchViews: lV, launchSpend: lS, totalViews: lV + mV + qPV + qFV, totalSpend: lS + mS + OA_QRT_PAID_COST, pendingSpend: 0, pending: [], med: median(OA_MAIN.map(i => i.views)), influencerCount: OA_MAIN.length };
+    return { id, mainData: OA_MAIN, launchPosts: OA_LAUNCH, hasInfluencers: true, mainViews: mV, mainSpend: mS, qrtViews: qPV + qFV, qrtCost: OA_QRT_PAID_COST, launchViews: lV, launchSpend: lS, totalViews: lV + mV + qPV + qFV, totalSpend: lS + mS + OA_QRT_PAID_COST, pendingSpend: 0, pending: [], med: median(OA_MAIN.map(i => i.views)), influencerCount: OA_MAIN.length };
   }
   if (id === "nb") {
     const launch = fullNB ? NB_LAUNCH_FULL : NB_LAUNCH;
     const mV = sumV(NB_MAIN), mS = sumP(NB_MAIN), qV = sumV(NB_QRT_FREE), lV = sumV(launch), lS = sumP(launch), pS = sumP(NB_PENDING);
-    return { id, mainData: NB_MAIN, launchPosts: launch, hasInfluencers: true, mainViews: mV, mainSpend: mS, qrtViews: qV, launchViews: lV, launchSpend: lS, totalViews: lV + mV + qV, totalSpend: lS + mS + pS, pendingSpend: pS, pending: NB_PENDING, med: median(NB_MAIN.map(i => i.views)), influencerCount: NB_MAIN.length };
+    return { id, mainData: NB_MAIN, launchPosts: launch, hasInfluencers: true, mainViews: mV, mainSpend: mS, qrtViews: qV, qrtCost: 0, launchViews: lV, launchSpend: lS, totalViews: lV + mV + qV, totalSpend: lS + mS + pS, pendingSpend: pS, pending: NB_PENDING, med: median(NB_MAIN.map(i => i.views)), influencerCount: NB_MAIN.length };
   }
   if (id === "sd") {
     const lV = sumV(SD_LAUNCH), lS = sumP(SD_LAUNCH);
-    return { id, mainData: [], launchPosts: SD_LAUNCH, hasInfluencers: false, mainViews: 0, mainSpend: 0, qrtViews: 0, launchViews: lV, launchSpend: lS, totalViews: lV, totalSpend: lS, pendingSpend: 0, pending: [], med: 0, influencerCount: 0 };
+    return { id, mainData: [], launchPosts: SD_LAUNCH, hasInfluencers: false, mainViews: 0, mainSpend: 0, qrtViews: 0, qrtCost: 0, launchViews: lV, launchSpend: lS, totalViews: lV, totalSpend: lS, pendingSpend: 0, pending: [], med: 0, influencerCount: 0 };
   }
   if (id === "sr") {
     const lV = sumV(SR_LAUNCH), lS = sumP(SR_LAUNCH);
-    return { id, mainData: [], launchPosts: SR_LAUNCH, hasInfluencers: false, mainViews: 0, mainSpend: 0, qrtViews: 0, launchViews: lV, launchSpend: lS, totalViews: lV, totalSpend: lS, pendingSpend: 0, pending: [], med: 0, influencerCount: 0 };
+    return { id, mainData: [], launchPosts: SR_LAUNCH, hasInfluencers: false, mainViews: 0, mainSpend: 0, qrtViews: 0, qrtCost: 0, launchViews: lV, launchSpend: lS, totalViews: lV, totalSpend: lS, pendingSpend: 0, pending: [], med: 0, influencerCount: 0 };
   }
   if (id === "nbm") {
     const lV = sumV(NB_LAUNCH_MAR), lS = sumP(NB_LAUNCH_MAR);
-    return { id, mainData: [], launchPosts: NB_LAUNCH_MAR, hasInfluencers: false, mainViews: 0, mainSpend: 0, qrtViews: 0, launchViews: lV, launchSpend: lS, totalViews: lV, totalSpend: lS, pendingSpend: 0, pending: [], med: 0, influencerCount: 0 };
+    return { id, mainData: [], launchPosts: NB_LAUNCH_MAR, hasInfluencers: false, mainViews: 0, mainSpend: 0, qrtViews: 0, qrtCost: 0, launchViews: lV, launchSpend: lS, totalViews: lV, totalSpend: lS, pendingSpend: 0, pending: [], med: 0, influencerCount: 0 };
   }
   if (id === "os") {
     const lV = sumV(OS_LAUNCH), lS = sumP(OS_LAUNCH);
-    return { id, mainData: [], launchPosts: OS_LAUNCH, hasInfluencers: false, mainViews: 0, mainSpend: 0, qrtViews: 0, launchViews: lV, launchSpend: lS, totalViews: lV, totalSpend: lS, pendingSpend: 0, pending: [], med: 0, influencerCount: 0 };
+    return { id, mainData: [], launchPosts: OS_LAUNCH, hasInfluencers: false, mainViews: 0, mainSpend: 0, qrtViews: 0, qrtCost: 0, launchViews: lV, launchSpend: lS, totalViews: lV, totalSpend: lS, pendingSpend: 0, pending: [], med: 0, influencerCount: 0 };
   }
   if (id === "bh") {
     const lV = sumV(BH_LAUNCH), lS = sumP(BH_LAUNCH);
-    return { id, mainData: [], launchPosts: BH_LAUNCH, hasInfluencers: false, mainViews: 0, mainSpend: 0, qrtViews: 0, launchViews: lV, launchSpend: lS, totalViews: lV, totalSpend: lS, pendingSpend: 0, pending: [], med: 0, influencerCount: 0 };
+    return { id, mainData: [], launchPosts: BH_LAUNCH, hasInfluencers: false, mainViews: 0, mainSpend: 0, qrtViews: 0, qrtCost: 0, launchViews: lV, launchSpend: lS, totalViews: lV, totalSpend: lS, pendingSpend: 0, pending: [], med: 0, influencerCount: 0 };
   }
   if (id === "ec") {
     const lV = sumV(EC_LAUNCH), lS = sumP(EC_LAUNCH);
-    return { id, mainData: [], launchPosts: EC_LAUNCH, hasInfluencers: false, mainViews: 0, mainSpend: 0, qrtViews: 0, launchViews: lV, launchSpend: lS, totalViews: lV, totalSpend: lS, pendingSpend: 0, pending: [], med: 0, influencerCount: 0 };
+    return { id, mainData: [], launchPosts: EC_LAUNCH, hasInfluencers: false, mainViews: 0, mainSpend: 0, qrtViews: 0, qrtCost: 0, launchViews: lV, launchSpend: lS, totalViews: lV, totalSpend: lS, pendingSpend: 0, pending: [], med: 0, influencerCount: 0 };
   }
   if (id === "kl3") {
     const lV = sumV(KL3_LAUNCH), lS = sumP(KL3_LAUNCH);
-    return { id, mainData: [], launchPosts: KL3_LAUNCH, hasInfluencers: false, mainViews: 0, mainSpend: 0, qrtViews: 0, launchViews: lV, launchSpend: lS, totalViews: lV, totalSpend: lS, pendingSpend: 0, pending: [], med: 0, influencerCount: 0 };
+    return { id, mainData: [], launchPosts: KL3_LAUNCH, hasInfluencers: false, mainViews: 0, mainSpend: 0, qrtViews: 0, qrtCost: 0, launchViews: lV, launchSpend: lS, totalViews: lV, totalSpend: lS, pendingSpend: 0, pending: [], med: 0, influencerCount: 0 };
   }
   if (id === "kl3c") {
     const lV = sumV(KL3C_LAUNCH), lS = sumP(KL3C_LAUNCH);
-    return { id, mainData: [], launchPosts: KL3C_LAUNCH, hasInfluencers: false, mainViews: 0, mainSpend: 0, qrtViews: 0, launchViews: lV, launchSpend: lS, totalViews: lV, totalSpend: lS, pendingSpend: 0, pending: [], med: 0, influencerCount: 0 };
+    return { id, mainData: [], launchPosts: KL3C_LAUNCH, hasInfluencers: false, mainViews: 0, mainSpend: 0, qrtViews: 0, qrtCost: 0, launchViews: lV, launchSpend: lS, totalViews: lV, totalSpend: lS, pendingSpend: 0, pending: [], med: 0, influencerCount: 0 };
   }
   if (id === "so2") {
     const lV = sumV(SO2_LAUNCH), lS = sumP(SO2_LAUNCH);
-    return { id, mainData: [], launchPosts: SO2_LAUNCH, hasInfluencers: false, mainViews: 0, mainSpend: 0, qrtViews: 0, launchViews: lV, launchSpend: lS, totalViews: lV, totalSpend: lS, pendingSpend: 0, pending: [], med: 0, influencerCount: 0 };
+    return { id, mainData: [], launchPosts: SO2_LAUNCH, hasInfluencers: false, mainViews: 0, mainSpend: 0, qrtViews: 0, qrtCost: 0, launchViews: lV, launchSpend: lS, totalViews: lV, totalSpend: lS, pendingSpend: 0, pending: [], med: 0, influencerCount: 0 };
+  }
+  if (id === "oaw") {
+    const mV = sumV(OAW_MAIN), mS = sumP(OAW_MAIN);
+    const lV = sumV(OAW_LAUNCH), lS = sumP(OAW_LAUNCH);
+    return { id, mainData: OAW_MAIN, launchPosts: OAW_LAUNCH, hasInfluencers: true, mainViews: mV, mainSpend: mS, qrtViews: OAW_QRT_PAID_VIEWS, qrtCost: OAW_QRT_PAID_COST, launchViews: lV, launchSpend: lS, totalViews: lV + mV + OAW_QRT_PAID_VIEWS, totalSpend: lS + mS + OAW_QRT_PAID_COST, pendingSpend: 0, pending: [], med: median(OAW_MAIN.map(i => i.views)), influencerCount: OAW_MAIN.length };
   }
   if (id === "vl") {
     // Merge QRT views into thread views for same creator (use thread price only for CPM)
@@ -82,7 +88,7 @@ function campaignStats(id, fullNB = false) {
     const mV = sumV(mergedMain), mS = sumP(VL_MAIN);
     const qFV = sumV(pureQRTs);
     const lV = sumV(VL_LAUNCH), lS = sumP(VL_LAUNCH);
-    return { id, mainData: mergedMain, launchPosts: VL_LAUNCH, hasInfluencers: true, mainViews: mV, mainSpend: mS, qrtViews: qFV, pureQRTs, launchViews: lV, launchSpend: lS, totalViews: lV + mV + qFV, totalSpend: lS + mS + VL_QRT_PAID_COST, pendingSpend: 0, pending: [], med: median(mergedMain.map(i => i.views)), influencerCount: mergedMain.length };
+    return { id, mainData: mergedMain, launchPosts: VL_LAUNCH, hasInfluencers: true, mainViews: mV, mainSpend: mS, qrtViews: qFV, qrtCost: VL_QRT_PAID_COST, pureQRTs, launchViews: lV, launchSpend: lS, totalViews: lV + mV + qFV, totalSpend: lS + mS + VL_QRT_PAID_COST, pendingSpend: 0, pending: [], med: median(mergedMain.map(i => i.views)), influencerCount: mergedMain.length };
   }
   return null;
 }
@@ -94,7 +100,7 @@ export default function CampaignDashboard({ onBack, monthId }) {
   const campaignIds = isAll
     ? MONTH_ORDER.flatMap(m => MONTHS[m]?.campaigns || []).filter(id => !CAMPAIGN_META[id]?.hideFromAll)
     : (month?.campaigns || []);
-  const [tab, setTab] = useState(campaignIds[0] || "oa");
+  const [tab, setTab] = useState("cum");
 
   const allStats = campaignIds.map(id => campaignStats(id, isAll)).filter(Boolean);
   const cumTV = allStats.reduce((s, c) => s + c.totalViews, 0);
@@ -105,7 +111,15 @@ export default function CampaignDashboard({ onBack, monthId }) {
   const cumLS = allStats.reduce((s, c) => s + c.launchSpend, 0);
   const cumPS = allStats.reduce((s, c) => s + c.pendingSpend, 0);
 
-  const tabs = [...campaignIds.map(id => ({ id, label: CAMPAIGN_META[id]?.label || id })), { id: "cum", label: "Cumulative" }];
+  // Cumulative medians
+  const allLaunchPostViews = allStats.flatMap(c => c.launchPosts.map(l => l.views));
+  const cumMedianLaunch = allLaunchPostViews.length > 0 ? median(allLaunchPostViews) : 0;
+  const allThreadViews = allStats.flatMap(c => c.mainData.map(i => i.views));
+  const cumMedianThreads = allThreadViews.length > 0 ? median(allThreadViews) : 0;
+  const allInfluencerCPMs = allStats.flatMap(c => c.mainData.map(i => (i.price / i.views) * 1000));
+  const cumMedianCPM = allInfluencerCPMs.length > 0 ? median(allInfluencerCPMs) : 0;
+
+  const tabs = [{ id: "cum", label: "Cumulative" }, ...campaignIds.map(id => ({ id, label: CAMPAIGN_META[id]?.label || id }))];
 
   const isCum = tab === "cum";
   const current = isCum ? null : campaignStats(tab, isAll);
@@ -140,9 +154,16 @@ export default function CampaignDashboard({ onBack, monthId }) {
               </div>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginBottom: 12 }}>
                 <StatCard label="Launch Posts Only" value={fmt(cumLV)} sub={`${fmtD(cumLS)} spent · $${cpm(cumLS, cumLV)} CPM`} accent="var(--c-views)" />
-                {cumIV > 0 && <StatCard label="Influencers Only" value={fmt(cumIV)} sub={`${fmtD(cumIS)} spent · $${cpm(cumIS, cumIV)} CPM`} accent="var(--c-views)" />}
+                {cumIV > 0 && <StatCard label="Threads Only" value={fmt(cumIV)} sub={`${fmtD(cumIS)} spent · $${cpm(cumIS, cumIV)} CPM`} accent="var(--c-views)" />}
               </div>
-              <div className="info-banner">ℹ️ <strong>Influencer-Only CPM</strong> = influencer spend ÷ influencer views (no launch posts, QRTs, pending). <strong>All-In CPM</strong> = total spend ÷ total impressions. Showing <strong>{monthLabel}</strong> only.</div>
+              {(cumMedianLaunch > 0 || cumMedianThreads > 0) && (
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginBottom: 12 }}>
+                  {cumMedianLaunch > 0 && <StatCard label="Median Launch Post" value={fmt(Math.round(cumMedianLaunch))} sub="Median impressions per launch post" accent="var(--c-median)" />}
+                  {cumMedianThreads > 0 && <StatCard label="Median Thread" value={fmt(Math.round(cumMedianThreads))} sub="Median impressions per thread" accent="var(--c-median)" />}
+                  {cumMedianCPM > 0 && <StatCard label="Median CPM" value={"$" + cumMedianCPM.toFixed(2)} sub="Median per-thread CPM" accent="var(--c-cpm)" />}
+                </div>
+              )}
+              <div className="info-banner">ℹ️ <strong>Threads CPM</strong> = thread spend ÷ thread impressions (no launch posts, QRTs, pending). <strong>All-In CPM</strong> = total spend ÷ total impressions. Showing <strong>{monthLabel}</strong> only.</div>
               <SectionTitle icon="📊">Campaign Comparison</SectionTitle>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 14 }}>
                 {allStats.map(c => (<CompareCard key={c.id} name={CAMPAIGN_META[c.id]?.label} views={c.totalViews} spend={c.totalSpend} mainV={c.mainViews} mainS={c.mainSpend} med={c.med} influencers={c.influencerCount} qrtV={c.qrtViews} launchOnly={!c.hasInfluencers} />))}
@@ -151,9 +172,9 @@ export default function CampaignDashboard({ onBack, monthId }) {
               <div className="data-card" style={{ lineHeight: 1.9, fontSize: 14, color: "var(--text-secondary)" }}>
                 <p style={{ margin: "0 0 12px" }}><strong style={{ color: "var(--c-views)" }}>{fmt(cumTV)} total impressions</strong> in {monthLabel} across {campaignIds.length} campaigns at <strong style={{ color: "var(--c-cpm)" }}>${cpm(cumTS, cumTV)} CPM</strong>. Industry average X CPMs sit at $6–$12.</p>
                 <p style={{ margin: "0 0 12px" }}><strong style={{ color: "var(--c-views)" }}>Launch posts generated {fmt(cumLV)} impressions</strong> ({cumTV > 0 ? ((cumLV/cumTV)*100).toFixed(0) : 0}% of total) at <strong style={{ color: "var(--c-cpm)" }}>${cpm(cumLS, cumLV)} CPM</strong>.</p>
-                {cumIV > 0 && <p style={{ margin: "0 0 12px" }}><strong style={{ color: "var(--c-cpm)" }}>Influencer-only CPM is ${cpm(cumIS, cumIV)}</strong>, driven by sub-$2 performers like Tripathi, MdRiyaz, Antonio Costa, and Enzo Sanchez.</p>}
-                {campaignIds.includes("oa") && <p style={{ margin: "0 0 12px" }}><strong style={{ color: "var(--cpm-bad)" }}>Underperformers:</strong> Alvaro Cintas ($303 CPM), Min Choi ($63.83 CPM), Hedonist ($31.25 CPM) consumed $4,200 for under 52K views.</p>}
-                {campaignIds.includes("oa") && <p style={{ margin: "0 0 12px" }}><strong style={{ color: "var(--c-views)" }}>$30 QRT strategy</strong> on OA Suite delivered 257K paid QRT views at $2.33 CPM, most cost-efficient content type.</p>}
+                {cumIV > 0 && <p style={{ margin: "0 0 12px" }}><strong style={{ color: "var(--c-cpm)" }}>Threads-only CPM is ${cpm(cumIS, cumIV)}</strong>, driven by sub-$2 performers like Tripathi, MdRiyaz, Antonio Costa, and Enzo Sanchez.</p>}
+                {campaignIds.includes("oa") && <p style={{ margin: "0 0 12px" }}><strong style={{ color: "var(--cpm-bad)" }}>Underperformers:</strong> Alvaro Cintas ($303 CPM), Min Choi ($63.83 CPM), Hedonist ($31.25 CPM) consumed $4,200 for under 52K impressions.</p>}
+                {campaignIds.includes("oa") && <p style={{ margin: "0 0 12px" }}><strong style={{ color: "var(--c-views)" }}>$30 QRT strategy</strong> on OA Suite delivered 257K paid QRT impressions at $2.33 CPM, most cost-efficient content type.</p>}
                 {cumPS > 0 && <p style={{ margin: 0 }}><strong style={{ color: "var(--c-spend)" }}>${fmt(cumPS)} pending</strong> with zero impressions.</p>}
               </div>
             </div>
@@ -189,29 +210,36 @@ export default function CampaignDashboard({ onBack, monthId }) {
           {/* INFLUENCER CAMPAIGNS */}
           {!isCum && !isLO && current && (
             <div className="fade-in">
+              {/* Row 1: Impressions */}
               <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginBottom: 8 }}>
-                <StatCard label="Total Impressions" value={fmt(current.totalViews)} sub="Launch + influencers + QRTs" accent="var(--c-views)" />
+                <StatCard label="Total Impressions" value={fmt(current.totalViews)} sub="Launch + threads + QRTs" accent="var(--c-views)" />
+                <StatCard label="Threads" value={fmt(current.mainViews)} accent="var(--c-views)" sub="Thread impressions" />
+                <StatCard label="QRT Impressions" value={fmt(current.qrtViews)} accent="var(--c-qrt)" />
+                <StatCard label={`Launch Post${current.launchPosts.length > 1 ? "s" : ""} Total`} value={fmt(current.launchViews)} accent="var(--c-views)" sub={`${current.launchPosts.length} post${current.launchPosts.length > 1 ? "s" : ""}`} />
+                <StatCard label="Median of Threads" value={fmt(current.med)} accent="var(--c-median)" />
+              </div>
+              {/* Row 2: Spend & CPM */}
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginBottom: 8 }}>
                 <StatCard label="Total Spend" value={fmtD(current.totalSpend)} accent="var(--c-spend)" sub="All costs incl. pending" />
-                <StatCard label="All-In CPM" value={"$" + cpm(current.totalSpend, current.totalViews)} accent="var(--c-cpm)" sub="Everything included" />
+                <StatCard label="Total CPM" value={"$" + cpm(current.totalSpend, current.totalViews)} accent="var(--c-cpm)" sub="Everything included" />
+                <StatCard label="Threads CPM" value={"$" + cpm(current.mainSpend, current.mainViews)} accent="var(--c-cpm)" sub="Thread spend ÷ thread impressions" />
+                {current.qrtCost > 0 && current.qrtViews > 0 && (
+                  <StatCard label="Standalone QRTs CPM" value={"$" + cpm(current.qrtCost, current.qrtViews)} accent="var(--c-cpm)" sub="Standalone QRT spend ÷ QRT impressions" />
+                )}
+                <StatCard label="Launch CPM" value={"$" + cpm(current.launchSpend, current.launchViews)} accent="var(--c-cpm)" sub="Launch spend ÷ launch impressions" />
               </div>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginBottom: 8 }}>
-                <StatCard label="Influencer-Only CPM" value={"$" + cpm(current.mainSpend, current.mainViews)} accent="var(--c-cpm)" sub="Excludes launch posts & QRTs" />
-                <StatCard label="Influencer Views" value={fmt(current.mainViews)} accent="var(--c-views)" />
-                <StatCard label="Median Views" value={fmt(current.med)} accent="var(--c-median)" />
-                <StatCard label="QRT Views" value={fmt(current.qrtViews)} accent="var(--c-qrt)" />
-              </div>
-              <div className="info-banner">ℹ️ <strong>Influencer-Only CPM</strong> = influencer spend ÷ influencer views (no launch posts, QRTs, pending). <strong>All-In CPM</strong> = total spend ÷ total impressions.</div>
+              <div className="info-banner">ℹ️ <strong>Threads CPM</strong> = thread spend ÷ thread impressions (no launch posts, QRTs, pending). <strong>Total CPM</strong> = total spend ÷ total impressions.</div>
 
               <SectionTitle icon="🚀">Launch Post{current.launchPosts.length > 1 ? "s" : ""}</SectionTitle>
               <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 8 }}>
                 {current.launchPosts.map((l, i) => (<StatCard key={i} label={l.label || `Launch Post${current.launchPosts.length > 1 ? ` ${i+1}` : ""}`} value={fmt(l.views)} sub={`${fmtD(l.price)} · $${cpm(l.price, l.views)} CPM`} accent="var(--c-views)" />))}
               </div>
 
-              <SectionTitle icon="📈">Influencer Performance (by Views)</SectionTitle>
+              <SectionTitle icon="📈">Thread Performance (by Impressions)</SectionTitle>
               <div style={{ marginBottom: 4 }}>
                 <div style={{ display: "flex", gap: 10, marginBottom: 10, fontSize: 11, color: "var(--text-muted)" }}>
                   <div style={{ width: 130, textAlign: "right" }}>Name</div>
-                  <div style={{ flex: 1 }}>Views</div>
+                  <div style={{ flex: 1 }}>Impressions</div>
                   <div style={{ width: 58, textAlign: "right" }}>Cost</div>
                   <div style={{ width: 62, textAlign: "right" }}>CPM</div>
                 </div>
@@ -225,7 +253,7 @@ export default function CampaignDashboard({ onBack, monthId }) {
                     <span style={{ fontSize: 18, fontWeight: 700, fontFamily: "var(--font-mono)", width: 22, color: idx === 0 ? "var(--c-spend)" : idx === 1 ? "#c0c4cc" : idx === 2 ? "#cd7f32" : "var(--text-muted)" }}>{idx + 1}</span>
                     <div>
                       <div style={{ fontSize: 13, color: "var(--text-primary)", fontWeight: 500 }}>{i.name}</div>
-                      <div style={{ fontSize: 11, color: "var(--text-muted)" }}><span style={{ color: "var(--c-views)" }}>{fmt(i.views)}</span> views · <span style={{ color: "var(--c-cpm)" }}>${cpm(i.price, i.views)}</span> CPM</div>
+                      <div style={{ fontSize: 11, color: "var(--text-muted)" }}><span style={{ color: "var(--c-views)" }}>{fmt(i.views)}</span> impressions · <span style={{ color: "var(--c-cpm)" }}>${cpm(i.price, i.views)}</span> CPM</div>
                     </div>
                   </div>
                 ))}
@@ -236,11 +264,11 @@ export default function CampaignDashboard({ onBack, monthId }) {
                 <>
                   <SectionTitle icon="🔁">$30 QRT Package — Cumulative</SectionTitle>
                   <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginBottom: 8 }}>
-                    <StatCard label="QRT Package Views" value={fmt(current.qrtViews)} sub={`12 creators · ${fmtD(VL_QRT_PAID_COST)} total`} accent="var(--c-qrt)" />
+                    <StatCard label="QRT Package Impressions" value={fmt(current.qrtViews)} sub={`12 creators · ${fmtD(VL_QRT_PAID_COST)} total`} accent="var(--c-qrt)" />
                     <StatCard label="Package CPM" value={"$" + cpm(VL_QRT_PAID_COST, current.qrtViews)} accent="var(--c-cpm)" sub="All $30 QRTs as one deal" />
                   </div>
                   <div className="data-card" style={{ fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.8 }}>
-                    <div style={{ marginBottom: 6, color: "var(--text-muted)", fontSize: 12 }}>12 paid QRTs × $30 each = <span style={{ color: "var(--c-spend)" }}>{fmtD(VL_QRT_PAID_COST)}</span> · <span style={{ color: "var(--c-views)" }}>{fmt(current.qrtViews)} views</span> · <span style={{ color: "var(--c-cpm)" }}>${cpm(VL_QRT_PAID_COST, current.qrtViews)} CPM</span> <span style={{ color: "var(--text-muted)", fontStyle: "italic" }}>(Lucas IA's QRT views merged into their thread row)</span></div>
+                    <div style={{ marginBottom: 6, color: "var(--text-muted)", fontSize: 12 }}>12 paid QRTs × $30 each = <span style={{ color: "var(--c-spend)" }}>{fmtD(VL_QRT_PAID_COST)}</span> · <span style={{ color: "var(--c-views)" }}>{fmt(current.qrtViews)} impressions</span> · <span style={{ color: "var(--c-cpm)" }}>${cpm(VL_QRT_PAID_COST, current.qrtViews)} CPM</span> <span style={{ color: "var(--text-muted)", fontStyle: "italic" }}>(Lucas IA's QRT impressions merged into their thread row)</span></div>
                     {current.pureQRTs.map(q => (
                       <span key={q.name} style={{ display: "inline-block", marginRight: 10, color: "var(--text-secondary)", fontSize: 12 }}>
                         {q.name} <span style={{ color: "var(--c-views)", fontFamily: "var(--font-mono)" }}>{fmt(q.views)}</span>
@@ -250,8 +278,22 @@ export default function CampaignDashboard({ onBack, monthId }) {
                 </>
               )}
 
-              {/* Views & CPM chart */}
-              <SectionTitle icon="📊">Views & CPM Chart</SectionTitle>
+              {/* $30 QRT package (OA Worlds) */}
+              {current.id === "oaw" && (
+                <>
+                  <SectionTitle icon="🔁">$30 QRT Package</SectionTitle>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginBottom: 8 }}>
+                    <StatCard label="QRT Package Impressions" value={fmt(current.qrtViews)} sub={`100 creators · ${fmtD(OAW_QRT_PAID_COST)} total`} accent="var(--c-qrt)" />
+                    <StatCard label="Package CPM" value={"$" + cpm(OAW_QRT_PAID_COST, current.qrtViews)} accent="var(--c-cpm)" sub="100 paid QRTs as one deal" />
+                  </div>
+                  <div className="data-card" style={{ fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.8 }}>
+                    <div style={{ color: "var(--text-muted)", fontSize: 12 }}>100 paid QRTs × $30 each = <span style={{ color: "var(--c-spend)" }}>{fmtD(OAW_QRT_PAID_COST)}</span> · <span style={{ color: "var(--c-views)" }}>{fmt(current.qrtViews)} impressions</span> · <span style={{ color: "var(--c-cpm)" }}>${cpm(OAW_QRT_PAID_COST, current.qrtViews)} CPM</span></div>
+                  </div>
+                </>
+              )}
+
+              {/* Impressions & CPM chart */}
+              <SectionTitle icon="📊">Impressions & CPM Chart</SectionTitle>
               <div className="data-card" style={{ padding: "16px 12px" }}>
                 <ViewsCpmChart data={current.mainData} />
               </div>
@@ -262,11 +304,11 @@ export default function CampaignDashboard({ onBack, monthId }) {
                   <SectionTitle icon="💡">Key Insights</SectionTitle>
                   <div className="data-card" style={{ lineHeight: 1.9, fontSize: 14, color: "var(--text-secondary)" }}>
                     <p style={{ margin: "0 0 12px" }}><strong style={{ color: "var(--c-views)" }}>{fmt(current.totalViews)} total impressions</strong> at <strong style={{ color: "var(--c-cpm)" }}>${cpm(current.totalSpend, current.totalViews)} all-in CPM</strong> — well below the industry average of $6–$12.</p>
-                    <p style={{ margin: "0 0 12px" }}><strong style={{ color: "var(--gold-light)" }}>Miguel</strong> is the standout: {fmt(current.mainData.find(d => d.name === "Miguel")?.views || 0)} views at <strong style={{ color: "var(--cpm-good)" }}>${cpm(275, current.mainData.find(d => d.name === "Miguel")?.views || 1)} CPM</strong> — best single-influencer efficiency in the campaign.</p>
-                    <p style={{ margin: "0 0 12px" }}><strong style={{ color: "var(--c-views)" }}>9 of 19 influencers</strong> delivered sub-$5 CPM (green tier): Miguel, Chidanand, Marco IA, Matias Schrank, Rafael Estrela, Rafa Gonzalez, Jaynit, Dhaval, and Alex Inspira.</p>
-                    <p style={{ margin: "0 0 12px" }}><strong style={{ color: "var(--c-qrt)" }}>$30 QRT package</strong> added {fmt(current.qrtViews)} views for {fmtD(VL_QRT_PAID_COST)} = <strong style={{ color: "var(--c-cpm)" }}>${cpm(VL_QRT_PAID_COST, current.qrtViews)} CPM</strong> — strong supplemental reach at low cost.</p>
-                    <p style={{ margin: "0 0 12px" }}><strong style={{ color: "var(--cpm-bad)" }}>Underperformers:</strong> Mad Pencil ($105 CPM), Ivan IA ($35 CPM), and Arsalan ($16.49 CPM) combined cost $525 for ~19K views — review these slots for next campaign.</p>
-                    <p style={{ margin: 0 }}><strong style={{ color: "var(--c-views)" }}>Launch post</strong>: {fmt(current.launchViews)} views at <strong style={{ color: "var(--c-cpm)" }}>${cpm(current.launchSpend, current.launchViews)} CPM</strong> — strongest efficiency driver at scale.</p>
+                    <p style={{ margin: "0 0 12px" }}><strong style={{ color: "var(--gold-light)" }}>Miguel</strong> is the standout: {fmt(current.mainData.find(d => d.name === "Miguel")?.views || 0)} impressions at <strong style={{ color: "var(--cpm-good)" }}>${cpm(275, current.mainData.find(d => d.name === "Miguel")?.views || 1)} CPM</strong> — best single-thread efficiency in the campaign.</p>
+                    <p style={{ margin: "0 0 12px" }}><strong style={{ color: "var(--c-views)" }}>9 of 19 threads</strong> delivered sub-$5 CPM (green tier): Miguel, Chidanand, Marco IA, Matias Schrank, Rafael Estrela, Rafa Gonzalez, Jaynit, Dhaval, and Alex Inspira.</p>
+                    <p style={{ margin: "0 0 12px" }}><strong style={{ color: "var(--c-qrt)" }}>$30 QRT package</strong> added {fmt(current.qrtViews)} impressions for {fmtD(VL_QRT_PAID_COST)} = <strong style={{ color: "var(--c-cpm)" }}>${cpm(VL_QRT_PAID_COST, current.qrtViews)} CPM</strong> — strong supplemental reach at low cost.</p>
+                    <p style={{ margin: "0 0 12px" }}><strong style={{ color: "var(--cpm-bad)" }}>Underperformers:</strong> Mad Pencil ($105 CPM), Ivan IA ($35 CPM), and Arsalan ($16.49 CPM) combined cost $525 for ~19K impressions — review these slots for next campaign.</p>
+                    <p style={{ margin: 0 }}><strong style={{ color: "var(--c-views)" }}>Launch post</strong>: {fmt(current.launchViews)} impressions at <strong style={{ color: "var(--c-cpm)" }}>${cpm(current.launchSpend, current.launchViews)} CPM</strong> — strongest efficiency driver at scale.</p>
                   </div>
                 </>
               )}
