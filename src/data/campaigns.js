@@ -312,8 +312,8 @@ export const CAMPAIGN_META = {
   so2: { label: "Sora 2", month: "mar26" },
   oaw: { label: "OpenArt Worlds", month: "mar26" },
   cb: { label: "Character Builder", month: "mar26" },
-  aipa: { label: "AI Personality of the Year Awards", month: "mar26", monthDisplay: "March 2026 · April 2026" },
-  aipaapr: { label: "AI Personality of the Year Awards", month: "apr26", hideFromAll: true, timelineOnly: true },
+  aipa: { label: "AI Personality of the Year Awards", month: "mar26" },
+  aipaapr: { label: "AI Personality of the Year Awards", month: "apr26", hideFromAll: true },
   sd2: { label: "Seedance 2.0", month: "apr26" },
   rf4: { label: "Recraft v4", month: "apr26" },
 };
