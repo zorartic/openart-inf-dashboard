@@ -5,6 +5,11 @@ import {
   SD_LAUNCH, SR_LAUNCH, OS_LAUNCH, BH_LAUNCH, EC_LAUNCH,
   VL_MAIN, VL_LAUNCH, VL_QRT_PAID, VL_QRT_PAID_COST,
   KL3_LAUNCH, KL3C_LAUNCH, SO2_LAUNCH,
+  OAW_MAIN, OAW_LAUNCH, OAW_QRT_PAID_COST, OAW_QRT_PAID_VIEWS,
+  AIPA_LAUNCH_MAR, AIPA_LAUNCH_APR,
+  SD2_MAIN, SD2_LAUNCH, SD2_QRT_PAID_COST, SD2_QRT_PAID_VIEWS,
+  CB_MAIN, CB_LAUNCH,
+  RF4_LAUNCH,
   MONTHS, MONTH_ORDER,
 } from "../data/campaigns";
 import { fmt, fmtD, sumV, sumP } from "../data/utils";
@@ -42,6 +47,21 @@ function getMonthStats(monthId) {
       totalViews += sumV(KL3C_LAUNCH); totalSpend += sumP(KL3C_LAUNCH);
     } else if (id === "so2") {
       totalViews += sumV(SO2_LAUNCH); totalSpend += sumP(SO2_LAUNCH);
+    } else if (id === "oaw") {
+      totalViews += sumV(OAW_LAUNCH) + sumV(OAW_MAIN) + OAW_QRT_PAID_VIEWS;
+      totalSpend += sumP(OAW_LAUNCH) + sumP(OAW_MAIN) + OAW_QRT_PAID_COST;
+    } else if (id === "cb") {
+      totalViews += sumV(CB_LAUNCH) + sumV(CB_MAIN);
+      totalSpend += sumP(CB_LAUNCH) + sumP(CB_MAIN);
+    } else if (id === "aipa") {
+      totalViews += sumV(AIPA_LAUNCH_MAR); totalSpend += sumP(AIPA_LAUNCH_MAR);
+    } else if (id === "aipaapr") {
+      totalViews += sumV(AIPA_LAUNCH_APR); totalSpend += sumP(AIPA_LAUNCH_APR);
+    } else if (id === "sd2") {
+      totalViews += sumV(SD2_LAUNCH) + sumV(SD2_MAIN) + SD2_QRT_PAID_VIEWS;
+      totalSpend += sumP(SD2_LAUNCH) + sumP(SD2_MAIN) + SD2_QRT_PAID_COST;
+    } else if (id === "rf4") {
+      totalViews += sumV(RF4_LAUNCH); totalSpend += sumP(RF4_LAUNCH);
     }
   }
   return { totalViews, totalSpend, count: month.campaigns.length };

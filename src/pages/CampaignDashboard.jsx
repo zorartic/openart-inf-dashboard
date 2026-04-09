@@ -12,9 +12,12 @@ import {
   VL_MAIN, VL_LAUNCH, VL_QRT_PAID, VL_QRT_PAID_COST,
   KL3_LAUNCH, KL3C_LAUNCH, SO2_LAUNCH,
   OAW_MAIN, OAW_LAUNCH, OAW_QRT_PAID_COST, OAW_QRT_PAID_VIEWS,
+  AIPA_LAUNCH_MAR, AIPA_LAUNCH_APR,
+  SD2_MAIN, SD2_LAUNCH, SD2_QRT_PAID_COST, SD2_QRT_PAID_VIEWS,
+  CB_MAIN, CB_LAUNCH,
+  RF4_LAUNCH,
   CAMPAIGN_META, MONTHS, MONTH_ORDER,
 } from "../data/campaigns";
-import ViewsCpmChart from "../components/ViewsCpmChart";
 import { fmt, fmtD, cpm, median, sumV, sumP } from "../data/utils";
 
 function campaignStats(id, fullNB = false) {
@@ -69,6 +72,28 @@ function campaignStats(id, fullNB = false) {
     const mV = sumV(OAW_MAIN), mS = sumP(OAW_MAIN);
     const lV = sumV(OAW_LAUNCH), lS = sumP(OAW_LAUNCH);
     return { id, mainData: OAW_MAIN, launchPosts: OAW_LAUNCH, hasInfluencers: true, mainViews: mV, mainSpend: mS, qrtViews: OAW_QRT_PAID_VIEWS, qrtCost: OAW_QRT_PAID_COST, launchViews: lV, launchSpend: lS, totalViews: lV + mV + OAW_QRT_PAID_VIEWS, totalSpend: lS + mS + OAW_QRT_PAID_COST, pendingSpend: 0, pending: [], med: median(OAW_MAIN.map(i => i.views)), influencerCount: OAW_MAIN.length };
+  }
+  if (id === "aipa") {
+    const lV = sumV(AIPA_LAUNCH_MAR), lS = sumP(AIPA_LAUNCH_MAR);
+    return { id, mainData: [], launchPosts: AIPA_LAUNCH_MAR, hasInfluencers: false, mainViews: 0, mainSpend: 0, qrtViews: 0, qrtCost: 0, launchViews: lV, launchSpend: lS, totalViews: lV, totalSpend: lS, pendingSpend: 0, pending: [], med: 0, influencerCount: 0 };
+  }
+  if (id === "aipaapr") {
+    const lV = sumV(AIPA_LAUNCH_APR), lS = sumP(AIPA_LAUNCH_APR);
+    return { id, mainData: [], launchPosts: AIPA_LAUNCH_APR, hasInfluencers: false, mainViews: 0, mainSpend: 0, qrtViews: 0, qrtCost: 0, launchViews: lV, launchSpend: lS, totalViews: lV, totalSpend: lS, pendingSpend: 0, pending: [], med: 0, influencerCount: 0 };
+  }
+  if (id === "sd2") {
+    const mV = sumV(SD2_MAIN), mS = sumP(SD2_MAIN);
+    const lV = sumV(SD2_LAUNCH), lS = sumP(SD2_LAUNCH);
+    return { id, mainData: SD2_MAIN, launchPosts: SD2_LAUNCH, hasInfluencers: true, mainViews: mV, mainSpend: mS, qrtViews: SD2_QRT_PAID_VIEWS, qrtCost: SD2_QRT_PAID_COST, launchViews: lV, launchSpend: lS, totalViews: lV + mV + SD2_QRT_PAID_VIEWS, totalSpend: lS + mS + SD2_QRT_PAID_COST, pendingSpend: 0, pending: [], med: median(SD2_MAIN.map(i => i.views)), influencerCount: SD2_MAIN.length };
+  }
+  if (id === "cb") {
+    const mV = sumV(CB_MAIN), mS = sumP(CB_MAIN);
+    const lV = sumV(CB_LAUNCH), lS = sumP(CB_LAUNCH);
+    return { id, mainData: CB_MAIN, launchPosts: CB_LAUNCH, hasInfluencers: true, mainViews: mV, mainSpend: mS, qrtViews: 0, qrtCost: 0, launchViews: lV, launchSpend: lS, totalViews: lV + mV, totalSpend: lS + mS, pendingSpend: 0, pending: [], med: median(CB_MAIN.map(i => i.views)), influencerCount: CB_MAIN.length };
+  }
+  if (id === "rf4") {
+    const lV = sumV(RF4_LAUNCH), lS = sumP(RF4_LAUNCH);
+    return { id, mainData: [], launchPosts: RF4_LAUNCH, hasInfluencers: false, mainViews: 0, mainSpend: 0, qrtViews: 0, qrtCost: 0, launchViews: lV, launchSpend: lS, totalViews: lV, totalSpend: lS, pendingSpend: 0, pending: [], med: 0, influencerCount: 0 };
   }
   if (id === "vl") {
     // Merge QRT views into thread views for same creator (use thread price only for CPM)
@@ -188,9 +213,17 @@ export default function CampaignDashboard({ onBack, monthId }) {
                 <StatCard label="Total Spend" value={fmtD(current.totalSpend)} accent="var(--c-spend)" />
                 <StatCard label="Launch Post CPM" value={"$" + cpm(current.totalSpend, current.totalViews)} accent="var(--c-cpm)" />
               </div>
-              <SectionTitle icon="🚀">Launch Post</SectionTitle>
+              <SectionTitle icon="🚀">Launch Post{current.launchPosts.length > 1 ? "s" : ""}</SectionTitle>
               <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-                {current.launchPosts.map((l, i) => (<StatCard key={i} label={l.label || `Launch Post${current.launchPosts.length > 1 ? ` ${i+1}` : ""}`} value={fmt(l.views)} sub={`${fmtD(l.price)} · $${cpm(l.price, l.views)} CPM`} accent="var(--c-views)" />))}
+                {current.launchPosts.map((l, i) => {
+                  const eng = (l.comments || 0) + (l.reposts || 0) + (l.likes || 0) + (l.bookmarks || 0);
+                  const cpeStr = (eng > 0 && l.price > 0) ? ` · $${(l.price / eng).toFixed(2)} CPE` : "";
+                  const postLabel = l.label || `Launch Post${current.launchPosts.length > 1 ? ` ${i+1}` : ""}`;
+                  const labelEl = l.link ? <a href={l.link} target="_blank" rel="noopener noreferrer" className="inf-link" style={{ color: "inherit", fontSize: 11, textTransform: "uppercase", letterSpacing: 1.2, fontFamily: "var(--font-body)" }}>{postLabel}</a> : postLabel;
+                  return (
+                    <StatCard key={i} label={labelEl} value={fmt(l.views)} sub={`${fmtD(l.price)} · $${cpm(l.price, l.views)} CPM${cpeStr}`} accent="var(--c-views)" />
+                  );
+                })}
               </div>
               <SectionTitle icon="💡">Notes</SectionTitle>
               <div className="data-card" style={{ lineHeight: 1.9, fontSize: 14, color: "var(--text-secondary)" }}>
@@ -198,11 +231,14 @@ export default function CampaignDashboard({ onBack, monthId }) {
                 {tab === "sr" && <p style={{ margin: 0 }}><strong style={{ color: "var(--gold-light)" }}>Seedream 5.0 Lite</strong> delivered 2.1M impressions at <strong style={{ color: "var(--c-cpm)" }}>${cpm(current.totalSpend, current.totalViews)} CPM</strong>.</p>}
                 {tab === "nbm" && <p style={{ margin: 0 }}><strong style={{ color: "var(--gold-light)" }}>Nano Banana 2 — Launch Post 3</strong> contributed 1M impressions at <strong style={{ color: "var(--c-cpm)" }}>${cpm(current.totalSpend, current.totalViews)} CPM</strong> in March, extending the campaign's reach beyond February.</p>}
                 {tab === "os" && <p style={{ margin: 0 }}><strong style={{ color: "var(--gold-light)" }}>OpenArt Summit</strong> launch post delivered 1M impressions at <strong style={{ color: "var(--c-cpm)" }}>${cpm(current.totalSpend, current.totalViews)} CPM</strong>.</p>}
-                {tab === "bh" && <p style={{ margin: 0 }}><strong style={{ color: "var(--gold-light)" }}>Bot House Trailer</strong> hit 3.4M impressions at <strong style={{ color: "var(--c-cpm)" }}>${cpm(2000, 3400000)} CPM</strong>. <strong style={{ color: "var(--gold-light)" }}>Episode 1</strong> added 2.1M impressions at <strong style={{ color: "var(--c-cpm)" }}>${cpm(2000, 2100000)} CPM</strong>. Combined: <strong style={{ color: "var(--c-views)" }}>{fmt(current.totalViews)} impressions</strong> at <strong style={{ color: "var(--c-cpm)" }}>${cpm(current.totalSpend, current.totalViews)} CPM</strong>.</p>}
+                {tab === "bh" && <p style={{ margin: 0 }}><strong style={{ color: "var(--gold-light)" }}>Bot House Trailer</strong> hit 3.4M impressions at <strong style={{ color: "var(--c-cpm)" }}>${cpm(2000, 3400000)} CPM</strong>. <strong style={{ color: "var(--gold-light)" }}>Episode 1</strong> added 2.1M impressions. <strong style={{ color: "var(--gold-light)" }}>Episode 2</strong> hit 3M impressions. <strong style={{ color: "var(--gold-light)" }}>Episode 3</strong> added 2.1M impressions. Combined: <strong style={{ color: "var(--c-views)" }}>{fmt(current.totalViews)} impressions</strong> at <strong style={{ color: "var(--c-cpm)" }}>${cpm(current.totalSpend, current.totalViews)} CPM</strong>.</p>}
                 {tab === "ec" && <p style={{ margin: 0 }}><strong style={{ color: "var(--gold-light)" }}>Embryom Chronicles: The Last Doctrine</strong> — Launch Post 1 delivered 1.3M impressions at <strong style={{ color: "var(--c-cpm)" }}>${cpm(1000, 1300000)} CPM</strong>. Launch Post 2 added 808K impressions at <strong style={{ color: "var(--c-cpm)" }}>${cpm(400, 808400)} CPM</strong>. Combined: <strong style={{ color: "var(--c-views)" }}>{fmt(current.totalViews)} impressions</strong> at <strong style={{ color: "var(--c-cpm)" }}>${cpm(current.totalSpend, current.totalViews)} CPM</strong>.</p>}
                 {tab === "kl3" && <p style={{ margin: 0 }}><strong style={{ color: "var(--gold-light)" }}>Kling 3 Motion Control</strong> launch post delivered <strong style={{ color: "var(--c-views)" }}>2.2M impressions</strong> at <strong style={{ color: "var(--c-cpm)" }}>${cpm(current.totalSpend, current.totalViews)} CPM</strong>.</p>}
                 {tab === "kl3c" && <p style={{ margin: 0 }}><strong style={{ color: "var(--gold-light)" }}>Kling 3.0 Challenge</strong> winner post delivered <strong style={{ color: "var(--c-views)" }}>958K impressions</strong> at <strong style={{ color: "var(--c-cpm)" }}>${cpm(current.totalSpend, current.totalViews)} CPM</strong>.</p>}
                 {tab === "so2" && <p style={{ margin: 0 }}><strong style={{ color: "var(--gold-light)" }}>Sora 2</strong> launch post delivered <strong style={{ color: "var(--c-views)" }}>2.4M impressions</strong> at <strong style={{ color: "var(--c-cpm)" }}>${cpm(current.totalSpend, current.totalViews)} CPM</strong>.</p>}
+                {tab === "aipa" && <p style={{ margin: 0 }}><strong style={{ color: "var(--gold-light)" }}>AI Personality of the Year Awards</strong> — Launch Post 1 in March: <strong style={{ color: "var(--c-views)" }}>2M impressions</strong> at <strong style={{ color: "var(--c-cpm)" }}>${cpm(current.totalSpend, current.totalViews)} CPM</strong>. Posts 2 and 3 run in April.</p>}
+                {tab === "aipaapr" && <p style={{ margin: 0 }}><strong style={{ color: "var(--gold-light)" }}>AI Personality of the Year Awards</strong> — Launch Post 2 (1M impressions) and Winner Post 1 (567K impressions). Combined: <strong style={{ color: "var(--c-views)" }}>{fmt(current.totalViews)} impressions</strong> at <strong style={{ color: "var(--c-cpm)" }}>${cpm(current.totalSpend, current.totalViews)} CPM</strong>.</p>}
+                {tab === "rf4" && <p style={{ margin: 0 }}><strong style={{ color: "var(--gold-light)" }}>Recraft v4</strong> launch post delivered <strong style={{ color: "var(--c-views)" }}>2.1M impressions</strong> at <strong style={{ color: "var(--c-cpm)" }}>${cpm(current.totalSpend, current.totalViews)} CPM</strong>.</p>}
               </div>
             </div>
           )}
@@ -214,36 +250,53 @@ export default function CampaignDashboard({ onBack, monthId }) {
               <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginBottom: 8 }}>
                 <StatCard label="Total Impressions" value={fmt(current.totalViews)} sub="Launch + threads + QRTs" accent="var(--c-views)" />
                 <StatCard label="Threads" value={fmt(current.mainViews)} accent="var(--c-views)" sub="Thread impressions" />
-                <StatCard label="QRT Impressions" value={fmt(current.qrtViews)} accent="var(--c-qrt)" />
-                <StatCard label={`Launch Post${current.launchPosts.length > 1 ? "s" : ""} Total`} value={fmt(current.launchViews)} accent="var(--c-views)" sub={`${current.launchPosts.length} post${current.launchPosts.length > 1 ? "s" : ""}`} />
+                {current.id !== "cb" && <StatCard label="QRT Impressions" value={fmt(current.qrtViews)} accent="var(--c-qrt)" />}
+                {current.launchPosts.length > 0 && <StatCard label={`Launch Post${current.launchPosts.length > 1 ? "s" : ""} Total`} value={fmt(current.launchViews)} accent="var(--c-views)" sub={`${current.launchPosts.length} post${current.launchPosts.length > 1 ? "s" : ""}`} />}
                 <StatCard label="Median of Threads" value={fmt(current.med)} accent="var(--c-median)" />
               </div>
               {/* Row 2: Spend & CPM */}
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginBottom: 8 }}>
-                <StatCard label="Total Spend" value={fmtD(current.totalSpend)} accent="var(--c-spend)" sub="All costs incl. pending" />
-                <StatCard label="Total CPM" value={"$" + cpm(current.totalSpend, current.totalViews)} accent="var(--c-cpm)" sub="Everything included" />
-                <StatCard label="Threads CPM" value={"$" + cpm(current.mainSpend, current.mainViews)} accent="var(--c-cpm)" sub="Thread spend ÷ thread impressions" />
-                {current.qrtCost > 0 && current.qrtViews > 0 && (
-                  <StatCard label="Standalone QRTs CPM" value={"$" + cpm(current.qrtCost, current.qrtViews)} accent="var(--c-cpm)" sub="Standalone QRT spend ÷ QRT impressions" />
-                )}
-                <StatCard label="Launch CPM" value={"$" + cpm(current.launchSpend, current.launchViews)} accent="var(--c-cpm)" sub="Launch spend ÷ launch impressions" />
-              </div>
+              {(() => {
+                const allEng = [...current.mainData, ...current.launchPosts].reduce((s, i) => s + (i.comments || 0) + (i.reposts || 0) + (i.likes || 0) + (i.bookmarks || 0), 0);
+                const overallCPE = allEng > 0 ? (current.totalSpend / allEng).toFixed(2) : null;
+                return (
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginBottom: 8 }}>
+                    <StatCard label="Total Spend" value={fmtD(current.totalSpend)} accent="var(--c-spend)" sub="All costs incl. pending" />
+                    <StatCard label="Total CPM" value={"$" + cpm(current.totalSpend, current.totalViews)} accent="var(--c-cpm)" sub="Everything included" />
+                    <StatCard label="Threads CPM" value={"$" + cpm(current.mainSpend, current.mainViews)} accent="var(--c-cpm)" sub="Thread spend ÷ thread impressions" />
+                    {overallCPE && <StatCard label="Overall CPE" value={`$${overallCPE}`} accent="var(--c-cpm)" sub="Total spend ÷ total engagements" />}
+                    {current.launchPosts.length > 0 && <StatCard label="Launch CPM" value={"$" + cpm(current.launchSpend, current.launchViews)} accent="var(--c-cpm)" sub="Launch spend ÷ launch impressions" />}
+                  </div>
+                );
+              })()}
               <div className="info-banner">ℹ️ <strong>Threads CPM</strong> = thread spend ÷ thread impressions (no launch posts, QRTs, pending). <strong>Total CPM</strong> = total spend ÷ total impressions.</div>
 
-              <SectionTitle icon="🚀">Launch Post{current.launchPosts.length > 1 ? "s" : ""}</SectionTitle>
-              <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 8 }}>
-                {current.launchPosts.map((l, i) => (<StatCard key={i} label={l.label || `Launch Post${current.launchPosts.length > 1 ? ` ${i+1}` : ""}`} value={fmt(l.views)} sub={`${fmtD(l.price)} · $${cpm(l.price, l.views)} CPM`} accent="var(--c-views)" />))}
-              </div>
+              {current.launchPosts.length > 0 && (
+                <>
+                  <SectionTitle icon="🚀">Launch Post{current.launchPosts.length > 1 ? "s" : ""}</SectionTitle>
+                  <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 8 }}>
+                    {current.launchPosts.map((l, i) => {
+                      const eng = (l.comments || 0) + (l.reposts || 0) + (l.likes || 0) + (l.bookmarks || 0);
+                      const cpeStr = (eng > 0 && l.price > 0) ? ` · $${(l.price / eng).toFixed(2)} CPE` : "";
+                      const postLabel = l.label || `Launch Post${current.launchPosts.length > 1 ? ` ${i+1}` : ""}`;
+                      const labelEl = l.link ? <a href={l.link} target="_blank" rel="noopener noreferrer" className="inf-link" style={{ color: "inherit", fontSize: 11, textTransform: "uppercase", letterSpacing: 1.2, fontFamily: "var(--font-body)" }}>{postLabel}</a> : postLabel;
+                      return (
+                        <StatCard key={i} label={labelEl} value={fmt(l.views)} sub={`${fmtD(l.price)} · $${cpm(l.price, l.views)} CPM${cpeStr}`} accent="var(--c-views)" />
+                      );
+                    })}
+                  </div>
+                </>
+              )}
 
-              <SectionTitle icon="📈">Thread Performance (by Impressions)</SectionTitle>
+              <SectionTitle icon="📈">Influencer Performance</SectionTitle>
               <div style={{ marginBottom: 4 }}>
                 <div style={{ display: "flex", gap: 10, marginBottom: 10, fontSize: 11, color: "var(--text-muted)" }}>
                   <div style={{ width: 130, textAlign: "right" }}>Name</div>
                   <div style={{ flex: 1 }}>Impressions</div>
                   <div style={{ width: 58, textAlign: "right" }}>Cost</div>
                   <div style={{ width: 62, textAlign: "right" }}>CPM</div>
+                  <div style={{ width: 62, textAlign: "right" }}>CPE</div>
                 </div>
-                {sorted.map(i => (<Bar key={i.name} name={i.name} value={i.views} max={maxViews} cost={i.price} cpmVal={cpm(i.price, i.views)} />))}
+                {sorted.map(i => (<Bar key={i.name} name={i.name} value={i.views} max={maxViews} cost={i.price} cpmVal={cpm(i.price, i.views)} link={i.link} comments={i.comments} reposts={i.reposts} likes={i.likes} bookmarks={i.bookmarks} />))}
               </div>
 
               <SectionTitle icon="🏆">Efficiency Ranking (Best CPM)</SectionTitle>
@@ -252,7 +305,9 @@ export default function CampaignDashboard({ onBack, monthId }) {
                   <div key={i.name} className="data-card" style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 16px" }}>
                     <span style={{ fontSize: 18, fontWeight: 700, fontFamily: "var(--font-mono)", width: 22, color: idx === 0 ? "var(--c-spend)" : idx === 1 ? "#c0c4cc" : idx === 2 ? "#cd7f32" : "var(--text-muted)" }}>{idx + 1}</span>
                     <div>
-                      <div style={{ fontSize: 13, color: "var(--text-primary)", fontWeight: 500 }}>{i.name}</div>
+                      <div style={{ fontSize: 13, color: "var(--text-primary)", fontWeight: 500 }}>
+                      {i.link ? <a href={i.link} target="_blank" rel="noopener noreferrer" className="inf-link">{i.name}</a> : i.name}
+                    </div>
                       <div style={{ fontSize: 11, color: "var(--text-muted)" }}><span style={{ color: "var(--c-views)" }}>{fmt(i.views)}</span> impressions · <span style={{ color: "var(--c-cpm)" }}>${cpm(i.price, i.views)}</span> CPM</div>
                     </div>
                   </div>
@@ -292,11 +347,19 @@ export default function CampaignDashboard({ onBack, monthId }) {
                 </>
               )}
 
-              {/* Impressions & CPM chart */}
-              <SectionTitle icon="📊">Impressions & CPM Chart</SectionTitle>
-              <div className="data-card" style={{ padding: "16px 12px" }}>
-                <ViewsCpmChart data={current.mainData} />
-              </div>
+              {/* $30 QRT package (SD2) */}
+              {current.id === "sd2" && (
+                <>
+                  <SectionTitle icon="🔁">Paid QRT Package</SectionTitle>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginBottom: 8 }}>
+                    <StatCard label="QRT Package Impressions" value={fmt(current.qrtViews)} sub={`102 creators · ${fmtD(SD2_QRT_PAID_COST)} total`} accent="var(--c-qrt)" />
+                    <StatCard label="Package CPM" value={"$" + cpm(SD2_QRT_PAID_COST, current.qrtViews)} accent="var(--c-cpm)" sub="102 paid QRTs as one deal" />
+                  </div>
+                  <div className="data-card" style={{ fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.8 }}>
+                    <div style={{ color: "var(--text-muted)", fontSize: 12 }}>102 paid QRTs = <span style={{ color: "var(--c-spend)" }}>{fmtD(SD2_QRT_PAID_COST)}</span> · <span style={{ color: "var(--c-views)" }}>{fmt(current.qrtViews)} impressions</span> · <span style={{ color: "var(--c-cpm)" }}>${cpm(SD2_QRT_PAID_COST, current.qrtViews)} CPM</span></div>
+                  </div>
+                </>
+              )}
 
               {/* Vellum key insights */}
               {current.id === "vl" && (

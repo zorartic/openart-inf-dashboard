@@ -157,6 +157,16 @@ html, body, #root {
 .s4 { animation-delay: 0.32s; }
 .s5 { animation-delay: 0.40s; }
 
+/* ===== INFLUENCER NAME LINKS ===== */
+.inf-link {
+  color: inherit;
+  text-decoration: none;
+}
+.inf-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 /* ===== BACK BUTTON ===== */
 .back-btn {
   display: inline-flex;
