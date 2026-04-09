@@ -74,12 +74,9 @@ function campaignStats(id, fullNB = false) {
     return { id, mainData: OAW_MAIN, launchPosts: OAW_LAUNCH, hasInfluencers: true, mainViews: mV, mainSpend: mS, qrtViews: OAW_QRT_PAID_VIEWS, qrtCost: OAW_QRT_PAID_COST, launchViews: lV, launchSpend: lS, totalViews: lV + mV + OAW_QRT_PAID_VIEWS, totalSpend: lS + mS + OAW_QRT_PAID_COST, pendingSpend: 0, pending: [], med: median(OAW_MAIN.map(i => i.views)), influencerCount: OAW_MAIN.length };
   }
   if (id === "aipa") {
-    const lV = sumV(AIPA_LAUNCH_MAR), lS = sumP(AIPA_LAUNCH_MAR);
-    return { id, mainData: [], launchPosts: AIPA_LAUNCH_MAR, hasInfluencers: false, mainViews: 0, mainSpend: 0, qrtViews: 0, qrtCost: 0, launchViews: lV, launchSpend: lS, totalViews: lV, totalSpend: lS, pendingSpend: 0, pending: [], med: 0, influencerCount: 0 };
-  }
-  if (id === "aipaapr") {
-    const lV = sumV(AIPA_LAUNCH_APR), lS = sumP(AIPA_LAUNCH_APR);
-    return { id, mainData: [], launchPosts: AIPA_LAUNCH_APR, hasInfluencers: false, mainViews: 0, mainSpend: 0, qrtViews: 0, qrtCost: 0, launchViews: lV, launchSpend: lS, totalViews: lV, totalSpend: lS, pendingSpend: 0, pending: [], med: 0, influencerCount: 0 };
+    const allPosts = [...AIPA_LAUNCH_MAR, ...AIPA_LAUNCH_APR];
+    const lV = sumV(allPosts), lS = sumP(allPosts);
+    return { id, mainData: [], launchPosts: allPosts, hasInfluencers: false, mainViews: 0, mainSpend: 0, qrtViews: 0, qrtCost: 0, launchViews: lV, launchSpend: lS, totalViews: lV, totalSpend: lS, pendingSpend: 0, pending: [], med: 0, influencerCount: 0 };
   }
   if (id === "sd2") {
     const mV = sumV(SD2_MAIN), mS = sumP(SD2_MAIN);
@@ -123,8 +120,8 @@ export default function CampaignDashboard({ onBack, monthId }) {
   const month = MONTHS[monthId];
   const monthLabel = isAll ? "All Campaigns" : (month?.label || "All");
   const campaignIds = isAll
-    ? MONTH_ORDER.flatMap(m => MONTHS[m]?.campaigns || []).filter(id => !CAMPAIGN_META[id]?.hideFromAll)
-    : (month?.campaigns || []);
+    ? MONTH_ORDER.flatMap(m => MONTHS[m]?.campaigns || []).filter(id => !CAMPAIGN_META[id]?.hideFromAll && !CAMPAIGN_META[id]?.timelineOnly)
+    : (month?.campaigns || []).filter(id => !CAMPAIGN_META[id]?.timelineOnly);
   const [tab, setTab] = useState("cum");
 
   const allStats = campaignIds.map(id => campaignStats(id, isAll)).filter(Boolean);
