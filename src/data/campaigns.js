@@ -90,8 +90,22 @@ export const AIPA_LAUNCH_MAR = [{ views: 2000000, price: 2000 }];
 export const AIPA_LAUNCH_APR = [
   { label: "Launch Post 2", views: 1000000, price: 1000 },
   { label: "Winner Post 1", views: 567000, price: 400 },
+  { label: "Winner Post 2", views: 578700, price: 400, comments: 37, reposts: 209, likes: 288, bookmarks: 370, link: "https://x.com/openart_ai/status/2042293340310552663" },
 ];
 export const RF4_LAUNCH = [{ views: 2100000, price: 2000 }];
+
+export const WAN27_LAUNCH = [
+  { views: 2000000, price: 2000, comments: 548, reposts: 494, likes: 551, bookmarks: 394, link: "https://x.com/openart_ai/status/2041942558923014636" },
+];
+export const IPS_LAUNCH = [
+  { views: 2100000, price: 2000, comments: 379, reposts: 502, likes: 576, bookmarks: 420, link: "https://x.com/openart_ai/status/2042731283982283166" },
+];
+export const LTX_LAUNCH = [
+  { views: 2100000, price: 2000, comments: 278, reposts: 669, likes: 968, bookmarks: 561, link: "https://x.com/openart_ai/status/2043763949212930557" },
+];
+export const LYRIA3_LAUNCH = [
+  { views: 2600000, price: 2000, comments: 283, reposts: 632, likes: 1042, bookmarks: 701, link: "https://x.com/openart_ai/status/2045189344374202660" },
+];
 
 // ========== OA WORLDS LAUNCH ==========
 // Views = thread + QRT combined for same creator. 58 influencers, 100 paid $30 QRTs.
@@ -208,67 +222,84 @@ export const VL_QRT_PAID = [
 ];
 export const VL_QRT_PAID_COST = 360;
 
-// ========== SEEDANCE 2.0 LATEST ==========
+// ========== SEEDANCE 2.0 LATEST (UPDATED) ==========
+// 3 launch posts, 65 influencers, 208 paid QRTs
 export const SD2_MAIN = [
-  { name: "el.cine", views: 674400, price: 3500, comments: 143, reposts: 373, likes: 2211, bookmarks: 2001, link: "https://x.com/EHuanglu/status/2041135488124452903" },
   { name: "Fotachu", views: 346400, price: 674, comments: 37, reposts: 183, likes: 2397, bookmarks: 528, link: "https://x.com/FotachuARGUY/status/2039694536306262199" },
+  { name: "Fotachu", views: 505400, price: 800, comments: 15, reposts: 76, likes: 1801, bookmarks: 337, link: "https://x.com/FotachuARGUY/status/2042994882361372845" },
+  { name: "Min Choi", views: 744900, price: 7000, comments: 43, reposts: 142, likes: 516, bookmarks: 366, link: "https://x.com/minchoi/status/2044133409220354316" },
+  { name: "el.cine", views: 674400, price: 3500, comments: 143, reposts: 373, likes: 2211, bookmarks: 2001, link: "https://x.com/EHuanglu/status/2041135488124452903" },
+  { name: "Amir Music", views: 533100, price: 4500, comments: 32, reposts: 105, likes: 635, bookmarks: 1175, link: "https://x.com/AmirMushich/status/2042613800147308839" },
   { name: "@thetripathi58", views: 292600, price: 200, comments: 42, reposts: 58, likes: 196, bookmarks: 167, link: "https://x.com/thetripathi58/status/2040821677769269515" },
   { name: "Alejandro Martinez", views: 285702, price: 250, comments: 24, reposts: 42, likes: 431, bookmarks: 236, link: "https://x.com/i/status/2040408485775470948" },
   { name: "@David_eficaz", views: 262300, price: 200, comments: 12, reposts: 20, likes: 70, bookmarks: 74, link: "https://x.com/David_eficaz/status/2040733839555768699" },
+  { name: "@hrrcnes", views: 250500, price: 400, comments: 25, reposts: 7, likes: 165, bookmarks: 152, link: "https://x.com/hrrcnes/status/2041220838104416446" },
+  { name: "Parul Gautam", views: 241900, price: 200, comments: 60, reposts: 31, likes: 127, bookmarks: 369, link: "https://x.com/Parul_Gautam7/status/2043991654592594023" },
   { name: "@TechByMarkandey", views: 237600, price: 200, comments: 30, reposts: 27, likes: 81, bookmarks: 432, link: "https://x.com/TechByMarkandey/status/2040427780127784991" },
+  { name: "Diptshi", views: 237600, price: 200, comments: 13, reposts: 25, likes: 124, bookmarks: 270, link: "https://x.com/Diptish09/status/2043713394944229423" },
   { name: "@alifcoder", views: 234900, price: 200, comments: 16, reposts: 11, likes: 257, bookmarks: 447, link: "https://x.com/alifcoder/status/2040440050039816249" },
   { name: "@aibytekat", views: 232800, price: 200, comments: 2, reposts: 25, likes: 281, bookmarks: 336, link: "https://x.com/aibytekat/status/2040821689005801687" },
   { name: "@LucasMestreIA", views: 231500, price: 200, comments: 7, reposts: 70, likes: 284, bookmarks: 469, link: "https://x.com/LucasMestreIA/status/2040795183432999238" },
+  { name: "Gina Acosta", views: 231000, price: 200, comments: 11, reposts: 36, likes: 287, bookmarks: 339, link: "https://x.com/ginacostag_/status/2044099769170309249" },
   { name: "MdRiyaz", views: 229313, price: 450, comments: 62, reposts: 52, likes: 183, bookmarks: 49, link: "https://x.com/riyazmd774/status/2040366651108172019" },
   { name: "@AIPandaX", views: 227100, price: 200, comments: 5, reposts: 25, likes: 171, bookmarks: 437, link: "https://x.com/AIPandaX/status/2040821665031246139" },
+  { name: "Vipin", views: 226600, price: 200, comments: 13, reposts: 25, likes: 120, bookmarks: 268, link: "https://x.com/viipin8/status/2043711216397471993" },
   { name: "@iam_chonchol", views: 224700, price: 200, comments: 9, reposts: 10, likes: 214, bookmarks: 425, link: "https://x.com/iam_chonchol/status/2040420302119944557" },
   { name: "@rovvmut_", views: 224600, price: 200, comments: 21, reposts: 52, likes: 218, bookmarks: 325, link: "https://x.com/rovvmut_/status/2040470854828741019" },
   { name: "@codemarch", views: 217800, price: 200, comments: 6, reposts: 120, likes: 117, bookmarks: 381, link: "https://x.com/codemarch/status/2040373383855292480" },
   { name: "Alvaro IA", views: 215557, price: 250, comments: 11, reposts: 25, likes: 330, bookmarks: 188, link: "https://x.com/i/status/2040410396113166547" },
   { name: "@PabloEvans0", views: 211600, price: 200, comments: 13, reposts: 23, likes: 167, bookmarks: 333, link: "https://x.com/PabloEvans0/status/2040793724423422214" },
+  { name: "Rana", views: 210500, price: 200, comments: 21, reposts: 40, likes: 273, bookmarks: 270, link: "https://x.com/Rana_kamran43/status/2044020388922118593" },
   { name: "@hey_mujeebahmed", views: 207200, price: 200, comments: 24, reposts: 148, likes: 165, bookmarks: 291, link: "https://x.com/hey_mujeebahmed/status/2040368619557933154" },
   { name: "@MatiasSchrank", views: 206300, price: 200, comments: 7, reposts: 23, likes: 116, bookmarks: 168, link: "https://x.com/MatiasSchrank/status/2040993701841846509" },
   { name: "Pete", views: 194144, price: 250, comments: 20, reposts: 38, likes: 311, bookmarks: 392, link: "https://x.com/xetgepete/status/2040397423802003553" },
   { name: "Enzo Sanchez", views: 192919, price: 250, comments: 21, reposts: 40, likes: 285, bookmarks: 385, link: "https://x.com/enzosanchezia/status/2040414496997417423" },
-  { name: "@hrrcnes", views: 162700, price: 400, comments: 25, reposts: 7, likes: 165, bookmarks: 146, link: "https://x.com/hrrcnes/status/2041220838104416446" },
   { name: "Ava AI", views: 127724, price: 250, comments: 11, reposts: 7, likes: 120, bookmarks: 201, link: "https://x.com/theava_ai/status/2040400038891855893" },
   { name: "Otaku Machine", views: 118481, price: 250, comments: 13, reposts: 11, likes: 118, bookmarks: 196, link: "https://x.com/otakumachine/status/2040406957408784895" },
   { name: "@mentalist_ai", views: 116600, price: 400, comments: 32, reposts: 40, likes: 759, bookmarks: 953, link: "https://x.com/mentalist_ai/status/2041164189150892352" },
-  { name: "NovaAI", views: 99900, price: 250, comments: 19, reposts: 20, likes: 154, bookmarks: 204, link: "https://x.com/novaiahq/status/2040393317796520414" },
-  { name: "TheoBuildsAI", views: 98000, price: 250, comments: 11, reposts: 8, likes: 136, bookmarks: 205, link: "https://x.com/theobuildsai/status/2040383098659942415" },
+  { name: "NovaAI", views: 107619, price: 250, comments: 19, reposts: 21, likes: 159, bookmarks: 227, link: "https://x.com/novaiahq/status/2040393317796520414" },
+  { name: "Futurestacked", views: 107220, price: 800, comments: 10, reposts: 34, likes: 200, bookmarks: 41, link: "https://x.com/futurestacked/status/2041436642683080986" },
+  { name: "TheoBuildsAI", views: 105654, price: 250, comments: 11, reposts: 9, likes: 138, bookmarks: 227, link: "https://x.com/theobuildsai/status/2040383098659942415" },
   { name: "Emma Uses AI", views: 95961, price: 250, comments: 11, reposts: 13, likes: 130, bookmarks: 214, link: "https://x.com/emmausesai/status/2040409424141893959" },
-  { name: "MarcoIA", views: 93500, price: 200, comments: 25, reposts: 31, likes: 244, bookmarks: 250, link: "https://x.com/Marco_Exito/status/2040503745336025123" },
+  { name: "MarcoIA", views: 95562, price: 200, comments: 31, reposts: 43, likes: 263, bookmarks: 261, link: "https://x.com/Marco_Exito/status/2040503745336025123" },
+  { name: "Yaseen", views: 95100, price: 150, comments: 8, reposts: 16, likes: 152, bookmarks: 45, link: "https://x.com/YaseenK7212/status/2042687634477117827" },
   { name: "@runthistown5416", views: 81600, price: 400, comments: 24, reposts: 25, likes: 398, bookmarks: 391, link: "https://x.com/runthistown5416/status/2041142895458111648" },
+  { name: "Aria Westcott", views: 80371, price: 800, comments: 14, reposts: 45, likes: 137, bookmarks: 57, link: "https://x.com/ariawestcott/status/2041457981724774685" },
   { name: "Tiago IA", views: 79401, price: 250, comments: 11, reposts: 25, likes: 134, bookmarks: 76, link: "https://x.com/i/status/2040388835243159912" },
+  { name: "AI Highlight", views: 76104, price: 800, comments: 16, reposts: 38, likes: 136, bookmarks: 41, link: "https://x.com/aihighlight/status/2041444739757510673" },
+  { name: "@efecim1sn", views: 75700, price: 400, comments: 43, reposts: 26, likes: 154, bookmarks: 111, link: "https://x.com/efecim1sn/status/2041091109254774913" },
+  { name: "@merak_makinesi", views: 74946, price: 400, comments: 30, reposts: 14, likes: 327, bookmarks: 261, link: "https://x.com/merak_makinesi/status/2041207543700037805" },
   { name: "Alexander Inspira", views: 74597, price: 300, comments: 26, reposts: 35, likes: 221, bookmarks: 245, link: "https://x.com/Alex_Inspira/status/2040149812356772102" },
   { name: "@umutcanbostanci", views: 72400, price: 400, comments: 48, reposts: 67, likes: 1011, bookmarks: 560, link: "https://x.com/umutcanbostanci/status/2041246435673276759" },
   { name: "@brkguzel", views: 63500, price: 400, comments: 17, reposts: 14, likes: 162, bookmarks: 143, link: "https://x.com/brkguzel/status/2041236455880548498" },
+  { name: "AI Frontliner", views: 63483, price: 800, comments: 20, reposts: 34, likes: 118, bookmarks: 56, link: "https://x.com/aifrontliner/status/2041442730606264520" },
   { name: "TechHalla", views: 60300, price: 1290, comments: 24, reposts: 51, likes: 352, bookmarks: 530, link: "https://x.com/techhalla/status/2040891856309952988" },
-  { name: "@efecim1sn", views: 58300, price: 400, comments: 35, reposts: 25, likes: 115, bookmarks: 92, link: "https://x.com/efecim1sn/status/2041091109254774913" },
-  { name: "Rafaela Estrela", views: 55600, price: 120, comments: 15, reposts: 49, likes: 83, bookmarks: 56, link: "https://x.com/TextoCriativo/status/2040822518060118281" },
+  { name: "Rafaela Estrela", views: 57446, price: 120, comments: 21, reposts: 51, likes: 94, bookmarks: 57, link: "https://x.com/TextoCriativo/status/2040822518060118281" },
   { name: "Jaynit", views: 54100, price: 150, comments: 12, reposts: 17, likes: 41, bookmarks: 22, link: "https://x.com/JaynitMakwana/status/2041430046443966563" },
   { name: "Rafa Gonzalez", views: 53537, price: 120, comments: 32, reposts: 55, likes: 118, bookmarks: 84, link: "https://x.com/ElCopyMaster/status/2040819850537234733" },
   { name: "HeyDhaval", views: 53200, price: 150, comments: 6, reposts: 12, likes: 31, bookmarks: 10, link: "https://x.com/heyDhavall/status/2041430171404886187" },
+  { name: "The AI colony", views: 50671, price: 800, comments: 10, reposts: 22, likes: 119, bookmarks: 41, link: "https://x.com/theaicolony/status/2041454232969072739" },
   { name: "Spider", views: 49500, price: 200, comments: 213, reposts: 20, likes: 350, bookmarks: 16, link: "https://x.com/spiderr_web3/status/2041773460184092908" },
+  { name: "@emrullahai", views: 49100, price: 400, comments: 52, reposts: 19, likes: 241, bookmarks: 224, link: "https://x.com/emrullahai/status/2041086911607980321" },
   { name: "Miguel", views: 44203, price: 325, comments: 7, reposts: 30, likes: 69, bookmarks: 20, link: "https://x.com/MiguelMaestroIA/status/2041501336491937793" },
+  { name: "@acerionsjournal", views: 43400, price: 400, comments: 29, reposts: 13, likes: 148, bookmarks: 48, link: "https://x.com/acerionsjournal/status/2041161613667905804" },
   { name: "Amira Zairi", views: 42686, price: 400, comments: 52, reposts: 57, likes: 420, bookmarks: 255, link: "https://x.com/azed_ai/status/2040460544495526397" },
-  { name: "@emrullahai", views: 33900, price: 400, comments: 44, reposts: 18, likes: 206, bookmarks: 207, link: "https://x.com/emrullahai/status/2041086911607980321" },
-  { name: "@acerionsjournal", views: 30600, price: 400, comments: 23, reposts: 13, likes: 47, bookmarks: 33, link: "https://x.com/acerionsjournal/status/2041161613667905804" },
   { name: "Lex", views: 20300, price: 0, comments: 19, reposts: 108, likes: 670, bookmarks: 228, link: "https://x.com/lexx_aura/status/2041065309759521128" },
-  { name: "@merak_makinesi", views: 19346, price: 400, comments: 25, reposts: 13, likes: 216, bookmarks: 242, link: "https://x.com/merak_makinesi/status/2041207543700037805" },
   { name: "@demirbulbuloglu", views: 15316, price: 400, comments: 11, reposts: 2, likes: 43, bookmarks: 20, link: "https://x.com/demirbulbuloglu/status/2041503390195142966" },
   { name: "MayorKing", views: 14979, price: 200, comments: 18, reposts: 20, likes: 113, bookmarks: 53, link: "https://x.com/MayorKingAI/status/2040146457475575875" },
   { name: "@dirstream", views: 14400, price: 400, comments: 6, reposts: 2, likes: 65, bookmarks: 39, link: "https://x.com/dirstream/status/2041239762464387197" },
   { name: "Ivan", views: 9884, price: 200, comments: 3, reposts: 12, likes: 25, bookmarks: 19, link: "https://x.com/ivnways/status/2040368892024111572" },
   { name: "TryaHD", views: 9161, price: 400, comments: 10, reposts: 14, likes: 86, bookmarks: 92, link: "https://x.com/tryahdd/status/2040774709864784086" },
+  { name: "Alex Patrascu", views: 5813, price: 1000, comments: 7, reposts: 8, likes: 66, bookmarks: 38, link: "https://x.com/maxescu/status/2043020290893234532" },
 ];
 export const SD2_LAUNCH = [
   { views: 7200000, price: 2400, comments: 297, reposts: 589, likes: 862, bookmarks: 802, link: "https://x.com/openart_ai/status/2039553049560223799" },
-  { label: "Teaser Post", views: 1000000, price: 1000, comments: 63, reposts: 261, likes: 463, bookmarks: 272, link: "https://x.com/openart_ai/status/2039421684135198895" },
+  { views: 7100000, price: 2400, comments: 403, reposts: 0, likes: 739, bookmarks: 581, link: "https://x.com/openart_ai/status/2042343728334139755" },
+  { views: 7100000, price: 2400, comments: 445, reposts: 896, likes: 1100, bookmarks: 784, link: "https://x.com/openart_ai/status/2044846919915081920" },
 ];
-export const SD2_QRT_PAID_COST = 3060;
-export const SD2_QRT_PAID_VIEWS = 312282;
-export const SD2_QRT_PAID_ENGAGEMENT = { comments: 696, reposts: 410, likes: 2140, bookmarks: 623 };
+export const SD2_QRT_PAID_COST = 6270;
+export const SD2_QRT_PAID_VIEWS = 678288;
+export const SD2_QRT_PAID_ENGAGEMENT = { comments: 1350, reposts: 951, likes: 4237, bookmarks: 992 };
 
 // ========== CHARACTER BUILDER ==========
 // No launch post, no QRTs. 19 influencers.
@@ -297,32 +328,37 @@ export const CB_LAUNCH = [
   { views: 4700000, price: 2000, comments: 453, reposts: 379, likes: 651, bookmarks: 531, link: "https://x.com/openart_ai/status/2038714886067531932" },
 ];
 
+// Each campaign has `months: [...]` listing every month it ran in.
+// Single-month campaigns have one entry; multi-month campaigns (e.g. nb, aipa)
+// list every month. `month` is kept for legacy paths and equals months[0].
 export const CAMPAIGN_META = {
-  oa: { label: "OA Suite Launch", month: "feb26" },
-  nb: { label: "Nano Banana 2", month: "feb26", monthDisplay: "February 2026 · March 2026" },
-  sd: { label: "Seedance 2.0 Teaser", month: "feb26" },
-  sr: { label: "Seedream 5.0 Lite", month: "feb26" },
-  nbm: { label: "Nano Banana 2", month: "mar26", hideFromAll: true },
-  os: { label: "OpenArt Summit", month: "mar26" },
-  bh: { label: "Bot House", month: "mar26" },
-  ec: { label: "Embryom Chronicles: The Last Doctrine", month: "mar26" },
-  vl: { label: "Vellum Launch", month: "mar26" },
-  kl3: { label: "Kling 3 Motion Control", month: "mar26" },
-  kl3c: { label: "Kling 3.0 Challenge", month: "mar26" },
-  so2: { label: "Sora 2", month: "mar26" },
-  oaw: { label: "OpenArt Worlds", month: "mar26" },
-  cb: { label: "Character Builder", month: "mar26" },
-  aipa: { label: "AI Personality of the Year Awards", month: "mar26" },
-  aipaapr: { label: "AI Personality of the Year Awards", month: "apr26", hideFromAll: true },
-  sd2: { label: "Seedance 2.0", month: "apr26" },
-  rf4: { label: "Recraft v4", month: "apr26" },
+  oa:   { label: "OA Suite Launch",                       month: "feb26", months: ["feb26"] },
+  nb:   { label: "Nano Banana 2",                         month: "feb26", months: ["feb26", "mar26"], monthDisplay: "February 2026 · March 2026" },
+  sd:   { label: "Seedance 2.0 Teaser",                   month: "feb26", months: ["feb26"] },
+  sr:   { label: "Seedream 5.0 Lite",                     month: "feb26", months: ["feb26"] },
+  os:   { label: "OpenArt Summit",                        month: "mar26", months: ["mar26"] },
+  bh:   { label: "Bot House",                             month: "mar26", months: ["mar26"] },
+  ec:   { label: "Embryom Chronicles: The Last Doctrine", month: "mar26", months: ["mar26"] },
+  vl:   { label: "Vellum Launch",                         month: "mar26", months: ["mar26"] },
+  kl3:  { label: "Kling 3 Motion Control",                month: "mar26", months: ["mar26"] },
+  kl3c: { label: "Kling 3.0 Challenge",                   month: "mar26", months: ["mar26"] },
+  so2:  { label: "Sora 2",                                month: "mar26", months: ["mar26"] },
+  oaw:  { label: "OpenArt Worlds",                        month: "mar26", months: ["mar26"] },
+  cb:   { label: "Character Builder",                     month: "mar26", months: ["mar26"] },
+  aipa: { label: "AI Personality of the Year Awards",     month: "mar26", months: ["mar26", "apr26"] },
+  sd2:  { label: "Seedance 2.0",                          month: "apr26", months: ["apr26"] },
+  rf4:  { label: "Recraft v4",                            month: "apr26", months: ["apr26"] },
+  wan27:  { label: "Wan 2.7",         month: "apr26", months: ["apr26"] },
+  ips:    { label: "IP Safety Check", month: "apr26", months: ["apr26"] },
+  ltx:    { label: "LTX 2.3",         month: "apr26", months: ["apr26"] },
+  lyria3: { label: "Google Lyria 3",  month: "apr26", months: ["apr26"] },
 };
 
-// Month registry
+// Derived from CAMPAIGN_META.months. Keep in sync if campaigns change.
 export const MONTHS = {
   feb26: { label: "February 2026", campaigns: ["oa", "nb", "sd", "sr"] },
-  mar26: { label: "March 2026", campaigns: ["nbm", "os", "bh", "ec", "vl", "kl3", "kl3c", "so2", "oaw", "cb", "aipa"] },
-  apr26: { label: "April 2026", campaigns: ["aipaapr", "sd2", "rf4"] },
+  mar26: { label: "March 2026",    campaigns: ["nb", "os", "bh", "ec", "vl", "kl3", "kl3c", "so2", "oaw", "cb", "aipa"] },
+  apr26: { label: "April 2026",    campaigns: ["aipa", "sd2", "rf4", "wan27", "ips", "ltx", "lyria3"] },
 };
 
 export const MONTH_ORDER = ["feb26", "mar26", "apr26"];

@@ -156,6 +156,7 @@ html, body, #root {
 .s3 { animation-delay: 0.24s; }
 .s4 { animation-delay: 0.32s; }
 .s5 { animation-delay: 0.40s; }
+.s6 { animation-delay: 0.48s; }
 
 /* ===== INFLUENCER NAME LINKS ===== */
 .inf-link {
@@ -263,4 +264,13 @@ html, body, #root {
   margin: 36px 0 18px;
   border-bottom: 1px solid rgba(255,255,255,0.06);
   padding-bottom: 12px;
+}
+
+/* ===== PLATFORM AURA (subtle gradient haze, same opacity/scale as .aura-bg) ===== */
+.platform-aura-bg {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 0;
 }
