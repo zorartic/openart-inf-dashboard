@@ -9,7 +9,7 @@ function IGBar({ item, max }) {
   const cpmStr = item.price > 0 ? cpm(item.price, item.views) : null;
   const cpmNum = cpmStr ? parseFloat(cpmStr) : null;
   const cpmColor = cpmNum !== null
-    ? (cpmNum < 5 ? "var(--cpm-good)" : cpmNum < 15 ? "var(--cpm-ok)" : "var(--cpm-bad)")
+    ? (cpmNum < 50 ? "var(--cpm-good)" : cpmNum < 100 ? "var(--cpm-ok)" : "var(--cpm-bad)")
     : "var(--text-muted)";
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 5, fontFamily: "var(--font-body)" }}>
