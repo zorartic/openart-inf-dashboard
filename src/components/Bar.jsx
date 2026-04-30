@@ -53,14 +53,14 @@ export default function Bar({ name, value, max, cost, cpmVal, link, comments, re
           top: -6,
           transform: "translateY(-100%)",
           zIndex: 200,
-          background: "linear-gradient(160deg, rgba(10,8,4,0.97) 0%, rgba(18,14,8,0.95) 100%)",
-          border: "1px solid rgba(201,168,76,0.22)",
+          background: "var(--surface-elev)",
+          border: "1px solid var(--border-gold)",
           borderRadius: 12,
           backdropFilter: "blur(12px)",
           WebkitBackdropFilter: "blur(12px)",
           padding: "12px 16px",
           minWidth: 210,
-          boxShadow: "0 16px 48px rgba(0,0,0,0.8), 0 0 0 0.5px rgba(201,168,76,0.08) inset",
+          boxShadow: "var(--shadow-elevated), 0 0 0 0.5px var(--gold-glow) inset",
           pointerEvents: "none",
         }}>
           <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 1, borderRadius: "12px 12px 0 0", background: "linear-gradient(90deg, transparent 5%, rgba(201,168,76,0.4) 50%, transparent 95%)", pointerEvents: "none" }} />

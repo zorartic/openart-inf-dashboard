@@ -34,7 +34,7 @@ function PlatformTile({ platformId, views, spend, count, onClick }) {
       onMouseLeave={e => { if (!disabled) { e.currentTarget.style.opacity = "1"; e.currentTarget.style.transform = "translateY(0)"; } }}
     >
       <div style={{
-        background: "linear-gradient(160deg, rgba(18,14,8,0.97) 0%, rgba(12,10,6,0.98) 100%)",
+        background: "var(--surface-elev)",
         borderRadius: 15,
         padding: "24px 22px",
         backdropFilter: "blur(24px)",
