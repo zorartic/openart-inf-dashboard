@@ -53,7 +53,7 @@ function NonXCumulative({ platform, allStats, totalViews, totalSpend, onPickCamp
 
       {platform === "ig" && igAllAgencies && Object.keys(igAllAgencies).length > 0 && (
         <>
-          <SectionTitle icon="🏢">Agency Breakdown</SectionTitle>
+          <SectionTitle icon="🏢">By Agency</SectionTitle>
           <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 20 }}>
             {Object.entries(igAllAgencies).sort((a, b) => b[1].views - a[1].views).map(([agency, data]) => (
               <div key={agency} className="data-card" style={{ minWidth: 160 }}>

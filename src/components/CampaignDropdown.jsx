@@ -43,8 +43,8 @@ export default function CampaignDropdown({ campaigns, value, onChange, getLabel,
         onClick={() => setOpen(v => !v)}
         style={{
           width: "100%",
-          background: "rgba(10,8,4,0.92)",
-          border: `1px solid ${open ? accent : "rgba(255,255,255,0.1)"}`,
+          background: "var(--surface-input)",
+          border: `1px solid ${open ? accent : "var(--hl-3)"}`,
           boxShadow: open ? `0 0 0 2px ${accent.replace(/[\d.]+\)$/, "0.12)")}` : "none",
           borderRadius: 10,
           color: "var(--text-primary)",
@@ -54,7 +54,7 @@ export default function CampaignDropdown({ campaigns, value, onChange, getLabel,
           padding: "10px 38px 10px 16px",
           cursor: "pointer",
           textAlign: "left",
-          transition: "border-color 0.2s ease, box-shadow 0.2s ease",
+          transition: "border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease",
           position: "relative",
           outline: "none",
         }}
@@ -80,16 +80,16 @@ export default function CampaignDropdown({ campaigns, value, onChange, getLabel,
             top: "calc(100% + 6px)",
             left: 0, right: 0,
             zIndex: 9999,
-            background: "rgba(20, 17, 10, 1)",
-            border: "1px solid rgba(255,255,255,0.12)",
+            background: "var(--surface-popover)",
+            border: "1px solid var(--hl-3)",
             borderRadius: 10,
-            boxShadow: "0 16px 40px rgba(0,0,0,0.6)",
+            boxShadow: "var(--shadow-elevated)",
             overflow: "hidden",
             fontFamily: "var(--font-body)",
             pointerEvents: "auto",
           }}
         >
-          <div style={{ padding: 8, borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
+          <div style={{ padding: 8, borderBottom: "1px solid var(--hl-2)" }}>
             <input
               ref={inputRef}
               value={query}
@@ -97,8 +97,8 @@ export default function CampaignDropdown({ campaigns, value, onChange, getLabel,
               placeholder="Search campaigns…"
               style={{
                 width: "100%",
-                background: "rgba(255,255,255,0.04)",
-                border: "1px solid rgba(255,255,255,0.08)",
+                background: "var(--hl-1)",
+                border: "1px solid var(--hl-2)",
                 borderRadius: 8,
                 color: "var(--text-primary)",
                 fontFamily: "var(--font-body)",
@@ -108,7 +108,7 @@ export default function CampaignDropdown({ campaigns, value, onChange, getLabel,
                 boxSizing: "border-box",
               }}
               onFocus={e => { e.target.style.borderColor = accent; }}
-              onBlur={e => { e.target.style.borderColor = "rgba(255,255,255,0.08)"; }}
+              onBlur={e => { e.target.style.borderColor = "var(--hl-2)"; }}
             />
           </div>
           <div style={{ maxHeight: 280, overflowY: "auto", padding: 4 }}>
@@ -122,8 +122,6 @@ export default function CampaignDropdown({ campaigns, value, onChange, getLabel,
                   key={o.id}
                   type="button"
                   onMouseDown={(e) => {
-                    // Prevent input blur + focus steal race; handle selection here so
-                    // it fires reliably regardless of click-vs-focus ordering.
                     e.preventDefault();
                     pickOption(o.id);
                   }}
@@ -134,7 +132,7 @@ export default function CampaignDropdown({ campaigns, value, onChange, getLabel,
                     padding: "9px 12px",
                     border: "none",
                     borderRadius: 6,
-                    background: isSelected ? "rgba(255,255,255,0.08)" : "transparent",
+                    background: isSelected ? "var(--hl-3)" : "transparent",
                     color: isSelected ? "var(--text-primary)" : "var(--text-secondary)",
                     fontFamily: "var(--font-body)",
                     fontSize: 13,
@@ -142,7 +140,7 @@ export default function CampaignDropdown({ campaigns, value, onChange, getLabel,
                     cursor: "pointer",
                     transition: "background 0.12s ease, color 0.12s ease",
                   }}
-                  onMouseEnter={e => { if (!isSelected) { e.currentTarget.style.background = "rgba(255,255,255,0.05)"; e.currentTarget.style.color = "var(--text-primary)"; } }}
+                  onMouseEnter={e => { if (!isSelected) { e.currentTarget.style.background = "var(--hl-2)"; e.currentTarget.style.color = "var(--text-primary)"; } }}
                   onMouseLeave={e => { if (!isSelected) { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "var(--text-secondary)"; } }}
                 >
                   {o.label}

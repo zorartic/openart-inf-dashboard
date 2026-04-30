@@ -1,4 +1,4 @@
-import { IG_CAMPAIGNS } from "./campaigns_ig";
+import { IG_CAMPAIGNS, igItemViews } from "./campaigns_ig";
 import { YT_CAMPAIGNS } from "./campaigns_yt";
 import { sumV, sumP } from "./utils";
 import {
@@ -13,6 +13,7 @@ import {
   CB_MAIN, CB_LAUNCH,
   RF4_LAUNCH,
   WAN27_LAUNCH, IPS_LAUNCH, LTX_LAUNCH, LYRIA3_LAUNCH,
+  BH_LAUNCH_APR, GPT2_LAUNCH, MV_LAUNCH, KL30_LAUNCH, SS_LAUNCH, HH_LAUNCH, MIT_LAUNCH, OAM_LAUNCH,
   CAMPAIGN_META,
 } from "./campaigns";
 
@@ -55,7 +56,16 @@ const X_STATS_MAP = {
   sd:   { views: sumV(SD_LAUNCH),   spend: sumP(SD_LAUNCH),   mainData: [], hasInfluencers: false, launchPosts: SD_LAUNCH },
   sr:   { views: sumV(SR_LAUNCH),   spend: sumP(SR_LAUNCH),   mainData: [], hasInfluencers: false, launchPosts: SR_LAUNCH },
   os:   { views: sumV(OS_LAUNCH),   spend: sumP(OS_LAUNCH),   mainData: [], hasInfluencers: false, launchPosts: OS_LAUNCH },
-  bh:   { views: sumV(BH_LAUNCH),   spend: sumP(BH_LAUNCH),   mainData: [], hasInfluencers: false, launchPosts: BH_LAUNCH },
+  bh: {
+    views: sumV(BH_LAUNCH) + sumV(BH_LAUNCH_APR),
+    spend: sumP(BH_LAUNCH) + sumP(BH_LAUNCH_APR),
+    mainData: [], hasInfluencers: false,
+    launchPosts: [...BH_LAUNCH, ...BH_LAUNCH_APR],
+    byMonth: {
+      mar26: { views: sumV(BH_LAUNCH),     spend: sumP(BH_LAUNCH),     mainData: [], hasInfluencers: false, launchPosts: BH_LAUNCH },
+      apr26: { views: sumV(BH_LAUNCH_APR), spend: sumP(BH_LAUNCH_APR), mainData: [], hasInfluencers: false, launchPosts: BH_LAUNCH_APR },
+    },
+  },
   ec:   { views: sumV(EC_LAUNCH),   spend: sumP(EC_LAUNCH),   mainData: [], hasInfluencers: false, launchPosts: EC_LAUNCH },
   kl3:  { views: sumV(KL3_LAUNCH),  spend: sumP(KL3_LAUNCH),  mainData: [], hasInfluencers: false, launchPosts: KL3_LAUNCH },
   kl3c: { views: sumV(KL3C_LAUNCH), spend: sumP(KL3C_LAUNCH), mainData: [], hasInfluencers: false, launchPosts: KL3C_LAUNCH },
@@ -104,6 +114,13 @@ const X_STATS_MAP = {
   ips:    { views: sumV(IPS_LAUNCH),    spend: sumP(IPS_LAUNCH),    mainData: [], hasInfluencers: false, launchPosts: IPS_LAUNCH },
   ltx:    { views: sumV(LTX_LAUNCH),    spend: sumP(LTX_LAUNCH),    mainData: [], hasInfluencers: false, launchPosts: LTX_LAUNCH },
   lyria3: { views: sumV(LYRIA3_LAUNCH), spend: sumP(LYRIA3_LAUNCH), mainData: [], hasInfluencers: false, launchPosts: LYRIA3_LAUNCH },
+  gpt2:   { views: sumV(GPT2_LAUNCH),   spend: sumP(GPT2_LAUNCH),   mainData: [], hasInfluencers: false, launchPosts: GPT2_LAUNCH },
+  mv:     { views: sumV(MV_LAUNCH),     spend: sumP(MV_LAUNCH),     mainData: [], hasInfluencers: false, launchPosts: MV_LAUNCH },
+  kl30:   { views: sumV(KL30_LAUNCH),   spend: sumP(KL30_LAUNCH),   mainData: [], hasInfluencers: false, launchPosts: KL30_LAUNCH },
+  ss:     { views: sumV(SS_LAUNCH),     spend: sumP(SS_LAUNCH),     mainData: [], hasInfluencers: false, launchPosts: SS_LAUNCH },
+  hh:     { views: sumV(HH_LAUNCH),     spend: sumP(HH_LAUNCH),     mainData: [], hasInfluencers: false, launchPosts: HH_LAUNCH },
+  mit:    { views: sumV(MIT_LAUNCH),    spend: sumP(MIT_LAUNCH),    mainData: [], hasInfluencers: false, launchPosts: MIT_LAUNCH },
+  oam:    { views: sumV(OAM_LAUNCH),    spend: sumP(OAM_LAUNCH),    mainData: [], hasInfluencers: false, launchPosts: OAM_LAUNCH },
 };
 
 const EMPTY_X = { views: 0, spend: 0, mainData: [], hasInfluencers: false, launchPosts: [] };
@@ -127,7 +144,24 @@ export function igStats(campaignId, monthId = null) {
     if (!months.includes(monthId)) return EMPTY_LIST;
   }
   const data = c.data || [];
-  return { views: sumV(data), spend: sumP(data), count: data.length, data };
+  // Total views + cpm-eligible views/spend split out so carousel items can
+  // contribute to total spend without distorting CPM (their impressions
+  // aren't trackable). `views` here = trackable (non-carousel) views, used
+  // as both the headline "Total Views" and the CPM denominator.
+  let cpmViews = 0, cpmSpend = 0, totalSpend = 0;
+  data.forEach(i => {
+    totalSpend += i.price || 0;
+    if (i.carousel) return;
+    cpmViews += igItemViews(i);
+    cpmSpend += i.price || 0;
+  });
+  return {
+    views: cpmViews,
+    spend: totalSpend,
+    cpmViews, cpmSpend,
+    count: data.length,
+    data,
+  };
 }
 
 export function ytStats(campaignId, monthId = null) {
@@ -148,7 +182,7 @@ export function igAgencyBreakdown(campaignId) {
     const ag = item.agency || "Direct";
     if (!byAgency[ag]) byAgency[ag] = { count: 0, views: 0, spend: 0 };
     byAgency[ag].count++;
-    byAgency[ag].views += item.views || 0;
+    byAgency[ag].views += item.carousel ? 0 : igItemViews(item);
     byAgency[ag].spend += item.price || 0;
   });
   return byAgency;

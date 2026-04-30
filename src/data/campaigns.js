@@ -91,6 +91,8 @@ export const AIPA_LAUNCH_APR = [
   { label: "Launch Post 2", views: 1000000, price: 1000 },
   { label: "Winner Post 1", views: 567000, price: 400 },
   { label: "Winner Post 2", views: 578700, price: 400, comments: 37, reposts: 209, likes: 288, bookmarks: 370, link: "https://x.com/openart_ai/status/2042293340310552663" },
+  { label: "Launch Post 3", views: 1100000, price: 1000, comments: 475, reposts: 260, likes: 695, bookmarks: 550, link: "https://x.com/openart_ai/status/2045276123844505826" },
+  { label: "Winner Post 3", views: 599800, price: 400, comments: 265, reposts: 491, likes: 424, bookmarks: 452, link: "https://x.com/openart_ai/status/2048089654185066535" },
 ];
 export const RF4_LAUNCH = [{ views: 2100000, price: 2000 }];
 
@@ -105,6 +107,32 @@ export const LTX_LAUNCH = [
 ];
 export const LYRIA3_LAUNCH = [
   { views: 2600000, price: 2000, comments: 283, reposts: 632, likes: 1042, bookmarks: 701, link: "https://x.com/openart_ai/status/2045189344374202660" },
+];
+
+export const BH_LAUNCH_APR = [
+  { label: "Episode 5 Teaser", views: 1000000, price: 1000, comments: 489, reposts: 770, likes: 776, bookmarks: 646, link: "https://x.com/openart_ai/status/2048483808568295836" },
+];
+export const GPT2_LAUNCH = [
+  { views: 2700000, price: 2000, comments: 281, reposts: 373, likes: 848, bookmarks: 736, link: "https://x.com/openart_ai/status/2046720989476896784" },
+];
+export const MV_LAUNCH = [
+  { views: 2000000, price: 2000, comments: 490, reposts: 681, likes: 760, bookmarks: 552, link: "https://x.com/openart_ai/status/2047050471546736702" },
+  { views: 1000000, price: 1000, comments: 268, reposts: 632, likes: 1000, bookmarks: 680, link: "https://x.com/openart_ai/status/2049252526529401292" },
+];
+export const KL30_LAUNCH = [
+  { views: 2200000, price: 2000, comments: 496, reposts: 744, likes: 764, bookmarks: 511, link: "https://x.com/openart_ai/status/2047388742671872107" },
+];
+export const SS_LAUNCH = [
+  { views: 6100000, price: 2400, comments: 547, reposts: 1200, likes: 1600, bookmarks: 1500, link: "https://x.com/openart_ai/status/2047753347168645423" },
+];
+export const HH_LAUNCH = [
+  { views: 2100000, price: 2000, comments: 515, reposts: 909, likes: 767, bookmarks: 737, link: "https://x.com/openart_ai/status/2048848534003212442" },
+];
+export const MIT_LAUNCH = [
+  { views: 1000000, price: 1000, comments: 48, reposts: 313, likes: 434, bookmarks: 592, link: "https://x.com/openart_ai/status/2049562677283082267" },
+];
+export const OAM_LAUNCH = [
+  { views: 796400, price: 1000, comments: 59, reposts: 287, likes: 386, bookmarks: 444, link: "https://x.com/openart_ai/status/2049605379978572003" },
 ];
 
 // ========== OA WORLDS LAUNCH ==========
@@ -337,7 +365,7 @@ export const CAMPAIGN_META = {
   sd:   { label: "Seedance 2.0 Teaser",                   month: "feb26", months: ["feb26"] },
   sr:   { label: "Seedream 5.0 Lite",                     month: "feb26", months: ["feb26"] },
   os:   { label: "OpenArt Summit",                        month: "mar26", months: ["mar26"] },
-  bh:   { label: "Bot House",                             month: "mar26", months: ["mar26"] },
+  bh:   { label: "Bot House",                             month: "mar26", months: ["mar26", "apr26"], monthDisplay: "March 2026 · April 2026" },
   ec:   { label: "Embryom Chronicles: The Last Doctrine", month: "mar26", months: ["mar26"] },
   vl:   { label: "Vellum Launch",                         month: "mar26", months: ["mar26"] },
   kl3:  { label: "Kling 3 Motion Control",                month: "mar26", months: ["mar26"] },
@@ -352,13 +380,20 @@ export const CAMPAIGN_META = {
   ips:    { label: "IP Safety Check", month: "apr26", months: ["apr26"] },
   ltx:    { label: "LTX 2.3",         month: "apr26", months: ["apr26"] },
   lyria3: { label: "Google Lyria 3",  month: "apr26", months: ["apr26"] },
+  gpt2:   { label: "GPT Image 2",          month: "apr26", months: ["apr26"] },
+  mv:     { label: "Multi-View",           month: "apr26", months: ["apr26"] },
+  kl30:   { label: "Kling 3.0",            month: "apr26", months: ["apr26"] },
+  ss:     { label: "SmartShot",            month: "apr26", months: ["apr26"], threadsDrafting: true },
+  hh:     { label: "Happy Horse",          month: "apr26", months: ["apr26"] },
+  mit:    { label: "MIT Global Film Hack", month: "apr26", months: ["apr26"] },
+  oam:    { label: "OpenArtists of the Month", month: "apr26", months: ["apr26"] },
 };
 
 // Derived from CAMPAIGN_META.months. Keep in sync if campaigns change.
 export const MONTHS = {
   feb26: { label: "February 2026", campaigns: ["oa", "nb", "sd", "sr"] },
   mar26: { label: "March 2026",    campaigns: ["nb", "os", "bh", "ec", "vl", "kl3", "kl3c", "so2", "oaw", "cb", "aipa"] },
-  apr26: { label: "April 2026",    campaigns: ["aipa", "sd2", "rf4", "wan27", "ips", "ltx", "lyria3"] },
+  apr26: { label: "April 2026",    campaigns: ["aipa", "sd2", "rf4", "wan27", "ips", "ltx", "lyria3", "bh", "gpt2", "mv", "kl30", "ss", "hh", "mit", "oam"] },
 };
 
 export const MONTH_ORDER = ["feb26", "mar26", "apr26"];

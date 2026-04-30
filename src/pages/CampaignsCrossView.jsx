@@ -20,10 +20,11 @@ function getCampaignCross(id) {
   const ig = hasIG ? igStats(id) : { views: 0, spend: 0 };
   const yt = hasYT ? ytStats(id) : { views: 0, spend: 0 };
   const launchOnly = hasX && !hasIG && !hasYT && x.hasInfluencers === false;
+  const threadsDrafting = !!CAMPAIGN_META[id]?.threadsDrafting;
   return {
     id,
     label: CAMPAIGN_META[id]?.label || IG_CAMPAIGNS[id]?.label || YT_CAMPAIGNS[id]?.label || id,
-    hasX, hasIG, hasYT, launchOnly,
+    hasX, hasIG, hasYT, launchOnly, threadsDrafting,
     x, ig, yt,
     totalViews: x.views + ig.views + yt.views,
     totalSpend: x.spend + ig.spend + yt.spend,
@@ -98,8 +99,8 @@ export default function CampaignsCrossView({ onPickCampaign, onBack, onHome, can
             placeholder="Search campaigns…"
             style={{
               width: "100%", boxSizing: "border-box",
-              background: "rgba(10,8,4,0.92)",
-              border: "1px solid rgba(255,255,255,0.1)",
+              background: "var(--surface-input)",
+              border: "1px solid var(--hl-3)",
               borderRadius: 10,
               color: "var(--text-primary)",
               fontFamily: "var(--font-body)",
@@ -107,8 +108,8 @@ export default function CampaignsCrossView({ onPickCampaign, onBack, onHome, can
               padding: "10px 14px",
               outline: "none",
             }}
-            onFocus={e => { e.target.style.borderColor = "rgba(201,168,76,0.5)"; }}
-            onBlur={e => { e.target.style.borderColor = "rgba(255,255,255,0.1)"; }}
+            onFocus={e => { e.target.style.borderColor = "var(--border-gold)"; }}
+            onBlur={e => { e.target.style.borderColor = "var(--hl-3)"; }}
           />
         </div>
         <div className="fade-up s4" style={{ display: "flex", flexDirection: "column", gap: 12 }}>
@@ -126,7 +127,7 @@ export default function CampaignsCrossView({ onPickCampaign, onBack, onHome, can
                 <div style={{ flex: "1 1 260px", minWidth: 200 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8, flexWrap: "wrap" }}>
                     <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "var(--font-display)", color: "var(--gold-light)" }}>{r.label}</div>
-                    {r.launchOnly && (
+                    {r.launchOnly && !r.threadsDrafting && (
                       <span style={{
                         display: "inline-flex", alignItems: "center",
                         padding: "2px 8px", borderRadius: 20,
@@ -136,6 +137,17 @@ export default function CampaignsCrossView({ onPickCampaign, onBack, onHome, can
                         fontSize: 9, fontFamily: "var(--font-body)", fontWeight: 700,
                         letterSpacing: 0.8, textTransform: "uppercase",
                       }}>Launch RT only</span>
+                    )}
+                    {r.threadsDrafting && (
+                      <span style={{
+                        display: "inline-flex", alignItems: "center",
+                        padding: "2px 8px", borderRadius: 20,
+                        border: "1px solid rgba(96,165,250,0.35)",
+                        background: "rgba(96,165,250,0.10)",
+                        color: "#93c5fd",
+                        fontSize: 9, fontFamily: "var(--font-body)", fontWeight: 700,
+                        letterSpacing: 0.8, textTransform: "uppercase",
+                      }}>Threads being drafted</span>
                     )}
                   </div>
                   <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>

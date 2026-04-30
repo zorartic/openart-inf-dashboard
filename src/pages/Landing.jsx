@@ -12,7 +12,7 @@ export default function Landing({ onNavigate }) {
         target="_blank"
         rel="noopener noreferrer"
         style={{
-          position: "absolute", top: 20, right: 24, zIndex: 10,
+          position: "absolute", top: 20, right: 74, zIndex: 10,
           fontSize: 11, fontFamily: "var(--font-body)", fontWeight: 600,
           letterSpacing: 0.8, color: "var(--text-muted)",
           background: "rgba(255,255,255,0.04)",

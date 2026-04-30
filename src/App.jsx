@@ -7,6 +7,7 @@ import PlatformDetail from "./pages/PlatformDetail";
 import CampaignCrossView from "./pages/CampaignCrossView";
 import MonthCrossView from "./pages/MonthCrossView";
 import CampaignsCrossView from "./pages/CampaignsCrossView";
+import ThemeToggle from "./components/ThemeToggle";
 
 export default function App() {
   const [history, setHistory] = useState([{ page: "landing" }]);
@@ -32,22 +33,20 @@ export default function App() {
 
   const nav = { onBack: back, onHome: home, canBack };
 
+  let page;
   if (current.page === "timeline") {
-    return <Timeline onNavigate={navigate} {...nav} />;
-  }
-  if (current.page === "platform") {
-    return <Platform onNavigate={navigate} {...nav} />;
-  }
-  if (current.page === "campaigns") {
-    return (
+    page = <Timeline onNavigate={navigate} {...nav} />;
+  } else if (current.page === "platform") {
+    page = <Platform onNavigate={navigate} {...nav} />;
+  } else if (current.page === "campaigns") {
+    page = (
       <CampaignsCrossView
         onPickCampaign={(id) => navigate("campaign-cross", id)}
         {...nav}
       />
     );
-  }
-  if (current.page === "platform-detail") {
-    return (
+  } else if (current.page === "platform-detail") {
+    page = (
       <PlatformDetail
         platform={current.platformId}
         initialCampaign={current.initialCampaign}
@@ -55,9 +54,8 @@ export default function App() {
         {...nav}
       />
     );
-  }
-  if (current.page === "campaign-cross") {
-    return (
+  } else if (current.page === "campaign-cross") {
+    page = (
       <CampaignCrossView
         campaignId={current.campaignId}
         onPickPlatform={(platform, cid) =>
@@ -66,9 +64,8 @@ export default function App() {
         {...nav}
       />
     );
-  }
-  if (current.page === "month-cross") {
-    return (
+  } else if (current.page === "month-cross") {
+    page = (
       <MonthCrossView
         monthId={current.monthId}
         onPickPlatform={(platform, mid) =>
@@ -77,6 +74,14 @@ export default function App() {
         {...nav}
       />
     );
+  } else {
+    page = <Landing onNavigate={navigate} />;
   }
-  return <Landing onNavigate={navigate} />;
+
+  return (
+    <>
+      <ThemeToggle />
+      {page}
+    </>
+  );
 }

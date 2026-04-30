@@ -12,6 +12,7 @@ import {
   SD2_MAIN, SD2_LAUNCH, SD2_QRT_PAID_COST, SD2_QRT_PAID_VIEWS,
   CB_MAIN, CB_LAUNCH, RF4_LAUNCH,
   WAN27_LAUNCH, IPS_LAUNCH, LTX_LAUNCH, LYRIA3_LAUNCH,
+  BH_LAUNCH_APR, GPT2_LAUNCH, MV_LAUNCH, KL30_LAUNCH, SS_LAUNCH, HH_LAUNCH, MIT_LAUNCH, OAM_LAUNCH,
 } from "../data/campaigns";
 import { fmt, fmtD, cpm, median, sumV, sumP } from "../data/utils";
 
@@ -29,6 +30,14 @@ function sliceNB(monthId) {
   const lV = sumV(launch), lS = sumP(launch), pS = sumP(NB_PENDING);
   return { id: "nb", mainData: NB_MAIN, launchPosts: launch, hasInfluencers: true, mainViews: mV, mainSpend: mS, qrtViews: qV, qrtCost: 0, launchViews: lV, launchSpend: lS, totalViews: lV + mV + qV, totalSpend: lS + mS + pS, pendingSpend: pS, pending: NB_PENDING, med: median(NB_MAIN.map(i => i.views)), influencerCount: NB_MAIN.length };
 }
+function sliceBH(monthId) {
+  let posts;
+  if (monthId === "mar26") posts = BH_LAUNCH;
+  else if (monthId === "apr26") posts = BH_LAUNCH_APR;
+  else posts = [...BH_LAUNCH, ...BH_LAUNCH_APR];
+  const lV = sumV(posts), lS = sumP(posts);
+  return { id: "bh", mainData: [], launchPosts: posts, hasInfluencers: false, mainViews: 0, mainSpend: 0, qrtViews: 0, qrtCost: 0, launchViews: lV, launchSpend: lS, totalViews: lV, totalSpend: lS, pendingSpend: 0, pending: [], med: 0, influencerCount: 0 };
+}
 function sliceAIPA(monthId) {
   let posts;
   if (monthId === "mar26") posts = AIPA_LAUNCH_MAR;
@@ -43,6 +52,7 @@ export function campaignStats(id, monthId = null) {
 
   if (id === "nb") return sliceNB(monthId);
   if (id === "aipa") return sliceAIPA(monthId);
+  if (id === "bh") return sliceBH(monthId);
 
   if (id === "oa") {
     const mV = sumV(OA_MAIN), mS = sumP(OA_MAIN);
@@ -53,7 +63,6 @@ export function campaignStats(id, monthId = null) {
   if (id === "sd") { const lV = sumV(SD_LAUNCH), lS = sumP(SD_LAUNCH); return { id, mainData: [], launchPosts: SD_LAUNCH, hasInfluencers: false, mainViews: 0, mainSpend: 0, qrtViews: 0, qrtCost: 0, launchViews: lV, launchSpend: lS, totalViews: lV, totalSpend: lS, pendingSpend: 0, pending: [], med: 0, influencerCount: 0 }; }
   if (id === "sr") { const lV = sumV(SR_LAUNCH), lS = sumP(SR_LAUNCH); return { id, mainData: [], launchPosts: SR_LAUNCH, hasInfluencers: false, mainViews: 0, mainSpend: 0, qrtViews: 0, qrtCost: 0, launchViews: lV, launchSpend: lS, totalViews: lV, totalSpend: lS, pendingSpend: 0, pending: [], med: 0, influencerCount: 0 }; }
   if (id === "os") { const lV = sumV(OS_LAUNCH), lS = sumP(OS_LAUNCH); return { id, mainData: [], launchPosts: OS_LAUNCH, hasInfluencers: false, mainViews: 0, mainSpend: 0, qrtViews: 0, qrtCost: 0, launchViews: lV, launchSpend: lS, totalViews: lV, totalSpend: lS, pendingSpend: 0, pending: [], med: 0, influencerCount: 0 }; }
-  if (id === "bh") { const lV = sumV(BH_LAUNCH), lS = sumP(BH_LAUNCH); return { id, mainData: [], launchPosts: BH_LAUNCH, hasInfluencers: false, mainViews: 0, mainSpend: 0, qrtViews: 0, qrtCost: 0, launchViews: lV, launchSpend: lS, totalViews: lV, totalSpend: lS, pendingSpend: 0, pending: [], med: 0, influencerCount: 0 }; }
   if (id === "ec") { const lV = sumV(EC_LAUNCH), lS = sumP(EC_LAUNCH); return { id, mainData: [], launchPosts: EC_LAUNCH, hasInfluencers: false, mainViews: 0, mainSpend: 0, qrtViews: 0, qrtCost: 0, launchViews: lV, launchSpend: lS, totalViews: lV, totalSpend: lS, pendingSpend: 0, pending: [], med: 0, influencerCount: 0 }; }
   if (id === "kl3") { const lV = sumV(KL3_LAUNCH), lS = sumP(KL3_LAUNCH); return { id, mainData: [], launchPosts: KL3_LAUNCH, hasInfluencers: false, mainViews: 0, mainSpend: 0, qrtViews: 0, qrtCost: 0, launchViews: lV, launchSpend: lS, totalViews: lV, totalSpend: lS, pendingSpend: 0, pending: [], med: 0, influencerCount: 0 }; }
   if (id === "kl3c") { const lV = sumV(KL3C_LAUNCH), lS = sumP(KL3C_LAUNCH); return { id, mainData: [], launchPosts: KL3C_LAUNCH, hasInfluencers: false, mainViews: 0, mainSpend: 0, qrtViews: 0, qrtCost: 0, launchViews: lV, launchSpend: lS, totalViews: lV, totalSpend: lS, pendingSpend: 0, pending: [], med: 0, influencerCount: 0 }; }
@@ -78,6 +87,13 @@ export function campaignStats(id, monthId = null) {
   if (id === "ips") { const lV = sumV(IPS_LAUNCH), lS = sumP(IPS_LAUNCH); return { id, mainData: [], launchPosts: IPS_LAUNCH, hasInfluencers: false, mainViews: 0, mainSpend: 0, qrtViews: 0, qrtCost: 0, launchViews: lV, launchSpend: lS, totalViews: lV, totalSpend: lS, pendingSpend: 0, pending: [], med: 0, influencerCount: 0 }; }
   if (id === "ltx") { const lV = sumV(LTX_LAUNCH), lS = sumP(LTX_LAUNCH); return { id, mainData: [], launchPosts: LTX_LAUNCH, hasInfluencers: false, mainViews: 0, mainSpend: 0, qrtViews: 0, qrtCost: 0, launchViews: lV, launchSpend: lS, totalViews: lV, totalSpend: lS, pendingSpend: 0, pending: [], med: 0, influencerCount: 0 }; }
   if (id === "lyria3") { const lV = sumV(LYRIA3_LAUNCH), lS = sumP(LYRIA3_LAUNCH); return { id, mainData: [], launchPosts: LYRIA3_LAUNCH, hasInfluencers: false, mainViews: 0, mainSpend: 0, qrtViews: 0, qrtCost: 0, launchViews: lV, launchSpend: lS, totalViews: lV, totalSpend: lS, pendingSpend: 0, pending: [], med: 0, influencerCount: 0 }; }
+  if (id === "gpt2") { const lV = sumV(GPT2_LAUNCH), lS = sumP(GPT2_LAUNCH); return { id, mainData: [], launchPosts: GPT2_LAUNCH, hasInfluencers: false, mainViews: 0, mainSpend: 0, qrtViews: 0, qrtCost: 0, launchViews: lV, launchSpend: lS, totalViews: lV, totalSpend: lS, pendingSpend: 0, pending: [], med: 0, influencerCount: 0 }; }
+  if (id === "mv")   { const lV = sumV(MV_LAUNCH),   lS = sumP(MV_LAUNCH);   return { id, mainData: [], launchPosts: MV_LAUNCH,   hasInfluencers: false, mainViews: 0, mainSpend: 0, qrtViews: 0, qrtCost: 0, launchViews: lV, launchSpend: lS, totalViews: lV, totalSpend: lS, pendingSpend: 0, pending: [], med: 0, influencerCount: 0 }; }
+  if (id === "kl30") { const lV = sumV(KL30_LAUNCH), lS = sumP(KL30_LAUNCH); return { id, mainData: [], launchPosts: KL30_LAUNCH, hasInfluencers: false, mainViews: 0, mainSpend: 0, qrtViews: 0, qrtCost: 0, launchViews: lV, launchSpend: lS, totalViews: lV, totalSpend: lS, pendingSpend: 0, pending: [], med: 0, influencerCount: 0 }; }
+  if (id === "ss")   { const lV = sumV(SS_LAUNCH),   lS = sumP(SS_LAUNCH);   return { id, mainData: [], launchPosts: SS_LAUNCH,   hasInfluencers: false, mainViews: 0, mainSpend: 0, qrtViews: 0, qrtCost: 0, launchViews: lV, launchSpend: lS, totalViews: lV, totalSpend: lS, pendingSpend: 0, pending: [], med: 0, influencerCount: 0 }; }
+  if (id === "hh")   { const lV = sumV(HH_LAUNCH),   lS = sumP(HH_LAUNCH);   return { id, mainData: [], launchPosts: HH_LAUNCH,   hasInfluencers: false, mainViews: 0, mainSpend: 0, qrtViews: 0, qrtCost: 0, launchViews: lV, launchSpend: lS, totalViews: lV, totalSpend: lS, pendingSpend: 0, pending: [], med: 0, influencerCount: 0 }; }
+  if (id === "mit")  { const lV = sumV(MIT_LAUNCH),  lS = sumP(MIT_LAUNCH);  return { id, mainData: [], launchPosts: MIT_LAUNCH,  hasInfluencers: false, mainViews: 0, mainSpend: 0, qrtViews: 0, qrtCost: 0, launchViews: lV, launchSpend: lS, totalViews: lV, totalSpend: lS, pendingSpend: 0, pending: [], med: 0, influencerCount: 0 }; }
+  if (id === "oam")  { const lV = sumV(OAM_LAUNCH),  lS = sumP(OAM_LAUNCH);  return { id, mainData: [], launchPosts: OAM_LAUNCH,  hasInfluencers: false, mainViews: 0, mainSpend: 0, qrtViews: 0, qrtCost: 0, launchViews: lV, launchSpend: lS, totalViews: lV, totalSpend: lS, pendingSpend: 0, pending: [], med: 0, influencerCount: 0 }; }
   if (id === "vl") {
     const qrtByNorm = {};
     VL_QRT_PAID.forEach(q => { const norm = q.name.replace(/\s*\(QRT\)\s*/i, "").trim(); qrtByNorm[norm] = (qrtByNorm[norm] || 0) + q.views; });
@@ -95,6 +111,7 @@ export default function CampaignXDetail({ campaignId, monthId }) {
   const current = campaignStats(campaignId, monthId);
   if (!current) return null;
   const isLO = !current.hasInfluencers;
+  const threadsDrafting = !!CAMPAIGN_META[campaignId]?.threadsDrafting;
   const data = current.mainData || [];
   const maxViews = data.length > 0 ? Math.max(...data.map(i => i.views)) : 0;
   const sorted = [...data].sort((a, b) => b.views - a.views);
@@ -108,6 +125,9 @@ export default function CampaignXDetail({ campaignId, monthId }) {
           <StatCard label="Total Spend" value={fmtD(current.totalSpend)} accent="var(--c-spend)" />
           <StatCard label="Launch Post CPM" value={"$" + cpm(current.totalSpend, current.totalViews)} accent="var(--c-cpm)" />
         </div>
+        {threadsDrafting && (
+          <div className="info-banner" style={{ marginBottom: 14 }}>✍️ <strong>Threads being drafted</strong> — influencer thread coverage is in progress.</div>
+        )}
         <SectionTitle icon="🚀">Launch Post{current.launchPosts.length > 1 ? "s" : ""}</SectionTitle>
         <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
           {current.launchPosts.map((l, i) => {

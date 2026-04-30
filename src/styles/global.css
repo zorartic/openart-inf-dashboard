@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=DM+Sans:wght@400;500;600;700&display=swap');
 
-:root {
+:root, [data-theme="dark"] {
   --bg-deep: #080604;
   --bg-surface: #0e0c0a;
   --bg-card: rgba(255, 255, 255, 0.03);
@@ -27,9 +27,83 @@
   --border-glass: rgba(255, 255, 255, 0.07);
   --border-gold: rgba(201, 168, 76, 0.15);
 
+  /* Surface highlight tokens — used by glass/data/month cards, tabs, buttons.
+     Swap with theme so subtle white-on-dark highlights become subtle
+     black-on-cream highlights in light mode. */
+  --hl-1: rgba(255, 255, 255, 0.03);
+  --hl-2: rgba(255, 255, 255, 0.06);
+  --hl-3: rgba(255, 255, 255, 0.1);
+  --hl-4: rgba(255, 255, 255, 0.13);
+
+  /* Aura gradient stops, swapped for light mode. */
+  --aura-1: rgba(180, 140, 50, 0.10);
+  --aura-2: rgba(160, 120, 40, 0.06);
+  --aura-3: rgba(190, 150, 60, 0.05);
+  --aura-floor: rgba(20, 15, 8, 0.8);
+  --aura-platform-floor: rgba(20, 15, 8, 0.8);
+
+  /* Elevated card body (Platform overview cards, etc.) — opaque, theme-aware. */
+  --surface-elev: linear-gradient(160deg, rgba(18,14,8,0.97) 0%, rgba(12,10,6,0.98) 100%);
+  /* Input field background (search, dropdown trigger). */
+  --surface-input: rgba(10,8,4,0.92);
+  /* Dropdown popover — fully opaque. */
+  --surface-popover: rgba(20,17,10,1);
+
+  --shadow-card: 0 8px 24px rgba(0,0,0,0.2);
+  --shadow-elevated: 0 16px 48px rgba(0,0,0,0.3);
+
   --font-display: 'Outfit', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
   --font-body: 'DM Sans', sans-serif;
+
+  color-scheme: dark;
+}
+
+[data-theme="light"] {
+  --bg-deep: #f5f1e8;
+  --bg-surface: #ede8db;
+  --bg-card: rgba(0, 0, 0, 0.025);
+  --gold-core: #a08230;
+  --gold-light: #7a5e1e;
+  --gold-dim: #c9a84c;
+  --gold-glow: rgba(160, 130, 48, 0.12);
+  --text-primary: #14110a;
+  --text-secondary: #5a5249;
+  --text-muted: #8a857c;
+
+  --c-views: #059669;
+  --c-spend: #b45309;
+  --c-cpm: #6d28d9;
+  --c-qrt: #0891b2;
+  --c-median: #be185d;
+
+  --cpm-good: #059669;
+  --cpm-ok: #b45309;
+  --cpm-bad: #dc2626;
+
+  --border-glass: rgba(0, 0, 0, 0.08);
+  --border-gold: rgba(160, 130, 48, 0.3);
+
+  --hl-1: rgba(0, 0, 0, 0.025);
+  --hl-2: rgba(0, 0, 0, 0.05);
+  --hl-3: rgba(0, 0, 0, 0.1);
+  --hl-4: rgba(0, 0, 0, 0.13);
+
+  --aura-1: rgba(201, 168, 76, 0.18);
+  --aura-2: rgba(201, 168, 76, 0.10);
+  --aura-3: rgba(255, 200, 100, 0.08);
+  --aura-floor: rgba(255, 245, 220, 0.6);
+  /* Per-platform aura floor: in light mode, a soft cream wash instead of dark. */
+  --aura-platform-floor: rgba(255, 245, 220, 0.6);
+
+  --surface-elev: linear-gradient(160deg, rgba(255,251,242,0.97) 0%, rgba(245,239,224,0.98) 100%);
+  --surface-input: rgba(255,251,242,0.95);
+  --surface-popover: rgba(252,247,235,1);
+
+  --shadow-card: 0 8px 24px rgba(160, 130, 48, 0.10);
+  --shadow-elevated: 0 16px 48px rgba(160, 130, 48, 0.15);
+
+  color-scheme: light;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -40,6 +114,7 @@ html, body, #root {
   font-family: var(--font-body);
   min-height: 100vh;
   overflow-x: hidden;
+  transition: background 0.25s ease, color 0.25s ease;
 }
 
 /* ===== PARTICLE CANVAS ===== */
@@ -59,21 +134,17 @@ html, body, #root {
   pointer-events: none;
   z-index: 0;
   background:
-    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(180, 140, 50, 0.10) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 40% at 20% 20%, rgba(160, 120, 40, 0.06) 0%, transparent 50%),
-    radial-gradient(ellipse 60% 40% at 80% 30%, rgba(190, 150, 60, 0.05) 0%, transparent 50%),
-    radial-gradient(ellipse 50% 50% at 50% 100%, rgba(20, 15, 8, 0.8) 0%, transparent 60%);
+    radial-gradient(ellipse 80% 50% at 50% 0%, var(--aura-1) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 20% 20%, var(--aura-2) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 40% at 80% 30%, var(--aura-3) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 50% at 50% 100%, var(--aura-floor) 0%, transparent 60%);
 }
 
 /* ===== LIQUID GLASS CARD (matching OpenArt screenshot) ===== */
 .glass-card {
   position: relative;
-  background: linear-gradient(
-    160deg,
-    rgba(255, 255, 255, 0.045) 0%,
-    rgba(255, 255, 255, 0.015) 100%
-  );
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(160deg, var(--hl-2) 0%, var(--hl-1) 100%);
+  border: 1px solid var(--hl-3);
   border-radius: 16px;
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
@@ -81,7 +152,8 @@ html, body, #root {
   cursor: pointer;
   transition: transform 0.45s cubic-bezier(0.19, 1, 0.22, 1),
               box-shadow 0.45s cubic-bezier(0.19, 1, 0.22, 1),
-              border-color 0.35s ease;
+              border-color 0.35s ease,
+              background 0.25s ease;
 }
 
 .glass-card::before {
@@ -89,16 +161,14 @@ html, body, #root {
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent 10%, rgba(255,255,255,0.12) 50%, transparent 90%);
+  background: linear-gradient(90deg, transparent 10%, var(--hl-4) 50%, transparent 90%);
   pointer-events: none;
 }
 
 .glass-card:hover {
   transform: translateY(-6px);
-  box-shadow:
-    0 24px 48px rgba(0, 0, 0, 0.35),
-    0 0 60px rgba(201, 168, 76, 0.06);
-  border-color: rgba(255, 255, 255, 0.13);
+  box-shadow: var(--shadow-elevated), 0 0 60px var(--gold-glow);
+  border-color: var(--hl-4);
 }
 
 /* Shine sweep */
@@ -106,7 +176,7 @@ html, body, #root {
   position: absolute;
   top: 0; left: -120%;
   width: 80%; height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent);
+  background: linear-gradient(90deg, transparent, var(--hl-2), transparent);
   transition: left 0.8s cubic-bezier(0.19, 1, 0.22, 1);
   pointer-events: none;
 }
@@ -114,23 +184,19 @@ html, body, #root {
 
 /* ===== DATA GLASS CARD (for dashboard stat cards) ===== */
 .data-card {
-  background: linear-gradient(
-    160deg,
-    rgba(255, 255, 255, 0.04) 0%,
-    rgba(255, 255, 255, 0.015) 100%
-  );
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: linear-gradient(160deg, var(--hl-2) 0%, var(--hl-1) 100%);
+  border: 1px solid var(--hl-2);
   border-radius: 14px;
   padding: 20px 24px;
-  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, background 0.25s ease;
   flex: 1 1 200px;
   min-width: 170;
 }
 
 .data-card:hover {
-  border-color: rgba(255, 255, 255, 0.1);
+  border-color: var(--hl-3);
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  box-shadow: var(--shadow-card);
 }
 
 /* ===== ANIMATIONS ===== */
@@ -174,8 +240,8 @@ html, body, #root {
   align-items: center;
   gap: 8px;
   padding: 10px 20px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--hl-1);
+  border: 1px solid var(--hl-2);
   border-radius: 10px;
   color: var(--text-secondary);
   font-family: var(--font-body);
@@ -186,7 +252,7 @@ html, body, #root {
 }
 
 .back-btn:hover {
-  background: rgba(255, 255, 255, 0.07);
+  background: var(--hl-2);
   color: var(--text-primary);
   transform: translateX(-3px);
 }
@@ -198,7 +264,7 @@ html, body, #root {
   font-weight: 400;
   color: var(--text-muted);
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--hl-2);
   border-radius: 8px;
   cursor: pointer;
   font-family: var(--font-body);
@@ -209,21 +275,21 @@ html, body, #root {
 
 .campaign-tab:hover {
   color: var(--text-secondary);
-  border-color: rgba(255, 255, 255, 0.1);
+  border-color: var(--hl-3);
 }
 
 .campaign-tab.active {
   font-weight: 600;
   color: var(--text-primary);
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.12);
+  background: var(--hl-2);
+  border-color: var(--hl-3);
 }
 
 /* ===== MONTH CARD ===== */
 .month-card {
   position: relative;
-  background: linear-gradient(160deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.015) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: linear-gradient(160deg, var(--hl-2) 0%, var(--hl-1) 100%);
+  border: 1px solid var(--hl-2);
   border-radius: 16px;
   padding: 36px;
   cursor: pointer;
@@ -235,25 +301,25 @@ html, body, #root {
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent 10%, rgba(255,255,255,0.1) 50%, transparent 90%);
+  background: linear-gradient(90deg, transparent 10%, var(--hl-3) 50%, transparent 90%);
 }
 .month-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 16px 48px rgba(0,0,0,0.3);
-  border-color: rgba(255,255,255,0.12);
+  box-shadow: var(--shadow-elevated);
+  border-color: var(--hl-3);
 }
 .month-card.empty { opacity: 0.35; cursor: default; }
-.month-card.empty:hover { transform: none; box-shadow: none; border-color: rgba(255,255,255,0.07); }
+.month-card.empty:hover { transform: none; box-shadow: none; border-color: var(--hl-2); }
 
 /* ===== INFO BANNER ===== */
 .info-banner {
-  background: rgba(167, 139, 250, 0.06);
-  border: 1px solid rgba(167, 139, 250, 0.15);
+  background: var(--gold-glow);
+  border: 1px solid var(--border-gold);
   border-radius: 10px;
   padding: 14px 20px;
   margin-bottom: 8px;
   font-size: 12px;
-  color: rgba(167, 139, 250, 0.8);
+  color: var(--text-secondary);
 }
 
 /* ===== SECTION DIVIDER ===== */
@@ -262,7 +328,7 @@ html, body, #root {
   align-items: center;
   gap: 10px;
   margin: 36px 0 18px;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
+  border-bottom: 1px solid var(--hl-2);
   padding-bottom: 12px;
 }
 

@@ -15,6 +15,7 @@ import {
   AIPA_LAUNCH_MAR, AIPA_LAUNCH_APR,
   RF4_LAUNCH,
   WAN27_LAUNCH, IPS_LAUNCH, LTX_LAUNCH, LYRIA3_LAUNCH,
+  BH_LAUNCH_APR, GPT2_LAUNCH, MV_LAUNCH, KL30_LAUNCH, SS_LAUNCH, HH_LAUNCH, MIT_LAUNCH, OAM_LAUNCH,
 } from "../data/campaigns";
 import { fmtShort } from "../data/utils";
 
@@ -36,9 +37,10 @@ const X_TOTAL = [
   ...SD2_MAIN, ...SD2_LAUNCH, { views: SD2_QRT_PAID_VIEWS },
   ...RF4_LAUNCH,
   ...WAN27_LAUNCH, ...IPS_LAUNCH, ...LTX_LAUNCH, ...LYRIA3_LAUNCH,
+  ...BH_LAUNCH_APR, ...GPT2_LAUNCH, ...MV_LAUNCH, ...KL30_LAUNCH, ...SS_LAUNCH, ...HH_LAUNCH, ...MIT_LAUNCH, ...OAM_LAUNCH,
 ].reduce((s, i) => s + (i.views || 0), 0);
 
-const IG_TOTAL = [...SD2_IG, ...OAW_IG, ...CB_IG].reduce((s, i) => s + (i.views || 0), 0);
+const IG_TOTAL = [...SD2_IG, ...OAW_IG, ...CB_IG].reduce((s, i) => s + (i.totalViews ?? i.views ?? 0), 0);
 const YT_TOTAL = [...SD2_YT, ...OAW_YT].reduce((s, i) => s + (i.views || 0), 0);
 
 function useCounter(target, started) {
@@ -96,7 +98,7 @@ function PlatformCard({ name, gradient, labelColor, total, delay, started, onCli
         onMouseLeave={e => { e.currentTarget.style.opacity = "1"; }}
       >
         <div style={{
-          background: "linear-gradient(160deg, rgba(18,14,8,0.97) 0%, rgba(12,10,6,0.98) 100%)",
+          background: "var(--surface-elev)",
           borderRadius: 19,
           padding: "36px 28px",
           textAlign: "center",

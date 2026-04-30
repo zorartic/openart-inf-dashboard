@@ -30,7 +30,7 @@ export default function PlatformAura({ platform }) {
     `radial-gradient(ellipse 60% 40% at 20% 20%, ${p.left} 0%, transparent 50%)`,
     `radial-gradient(ellipse 60% 40% at 80% 30%, ${p.right} 0%, transparent 50%)`,
     `radial-gradient(ellipse 60% 40% at 18% 82%, ${p.bottomLeft} 0%, transparent 55%)`,
-    `radial-gradient(ellipse 50% 50% at 50% 100%, rgba(20, 15, 8, 0.8) 0%, transparent 60%)`,
+    `radial-gradient(ellipse 50% 50% at 50% 100%, var(--aura-platform-floor) 0%, transparent 60%)`,
   ].join(", ");
 
   return <div key={platform} className="platform-aura-bg" style={{ background }} />;
