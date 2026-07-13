@@ -14,6 +14,8 @@ import {
   RF4_LAUNCH,
   WAN27_LAUNCH, IPS_LAUNCH, LTX_LAUNCH, LYRIA3_LAUNCH,
   BH_LAUNCH_APR, GPT2_LAUNCH, MV_LAUNCH, KL30_LAUNCH, SS_LAUNCH, HH_LAUNCH, MIT_LAUNCH, OAM_LAUNCH,
+  VFX_LAUNCH,
+  DIRECTOR_LAUNCH, DIRECTOR_MAIN, DIRECTOR_QRT_PAID_VIEWS, DIRECTOR_QRT_PAID_COST, DIRECTOR_PENDING,
   CAMPAIGN_META,
 } from "./campaigns";
 
@@ -121,6 +123,14 @@ const X_STATS_MAP = {
   hh:     { views: sumV(HH_LAUNCH),     spend: sumP(HH_LAUNCH),     mainData: [], hasInfluencers: false, launchPosts: HH_LAUNCH },
   mit:    { views: sumV(MIT_LAUNCH),    spend: sumP(MIT_LAUNCH),    mainData: [], hasInfluencers: false, launchPosts: MIT_LAUNCH },
   oam:    { views: sumV(OAM_LAUNCH),    spend: sumP(OAM_LAUNCH),    mainData: [], hasInfluencers: false, launchPosts: OAM_LAUNCH },
+  vfx: { views: sumV(VFX_LAUNCH), spend: sumP(VFX_LAUNCH), mainData: [], hasInfluencers: false, launchPosts: VFX_LAUNCH },
+  director: {
+    views: sumV(DIRECTOR_MAIN) + sumV(DIRECTOR_LAUNCH) + DIRECTOR_QRT_PAID_VIEWS,
+    spend: sumP(DIRECTOR_MAIN) + sumP(DIRECTOR_LAUNCH) + DIRECTOR_QRT_PAID_COST + sumP(DIRECTOR_PENDING),
+    mainData: DIRECTOR_MAIN, hasInfluencers: true, launchPosts: DIRECTOR_LAUNCH,
+    qrtPaidViews: DIRECTOR_QRT_PAID_VIEWS, qrtPaidCost: DIRECTOR_QRT_PAID_COST,
+    pending: DIRECTOR_PENDING, pendingSpend: sumP(DIRECTOR_PENDING),
+  },
 };
 
 const EMPTY_X = { views: 0, spend: 0, mainData: [], hasInfluencers: false, launchPosts: [] };

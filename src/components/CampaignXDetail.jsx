@@ -13,6 +13,8 @@ import {
   CB_MAIN, CB_LAUNCH, RF4_LAUNCH,
   WAN27_LAUNCH, IPS_LAUNCH, LTX_LAUNCH, LYRIA3_LAUNCH,
   BH_LAUNCH_APR, GPT2_LAUNCH, MV_LAUNCH, KL30_LAUNCH, SS_LAUNCH, HH_LAUNCH, MIT_LAUNCH, OAM_LAUNCH,
+  VFX_LAUNCH,
+  DIRECTOR_LAUNCH, DIRECTOR_MAIN, DIRECTOR_QRT_PAID_VIEWS, DIRECTOR_QRT_PAID_COST, DIRECTOR_PENDING,
 } from "../data/campaigns";
 import { fmt, fmtD, cpm, median, sumV, sumP } from "../data/utils";
 
@@ -103,6 +105,13 @@ export function campaignStats(id, monthId = null) {
     const qFV = sumV(pureQRTs);
     const lV = sumV(VL_LAUNCH), lS = sumP(VL_LAUNCH);
     return { id, mainData: mergedMain, launchPosts: VL_LAUNCH, hasInfluencers: true, mainViews: mV, mainSpend: mS, qrtViews: qFV, qrtCost: VL_QRT_PAID_COST, pureQRTs, launchViews: lV, launchSpend: lS, totalViews: lV + mV + qFV, totalSpend: lS + mS + VL_QRT_PAID_COST, pendingSpend: 0, pending: [], med: median(mergedMain.map(i => i.views)), influencerCount: mergedMain.length };
+  }
+  if (id === "vfx") { const lV = sumV(VFX_LAUNCH), lS = sumP(VFX_LAUNCH); return { id, mainData: [], launchPosts: VFX_LAUNCH, hasInfluencers: false, mainViews: 0, mainSpend: 0, qrtViews: 0, qrtCost: 0, launchViews: lV, launchSpend: lS, totalViews: lV, totalSpend: lS, pendingSpend: 0, pending: [], med: 0, influencerCount: 0 }; }
+  if (id === "director") {
+    const mV = sumV(DIRECTOR_MAIN), mS = sumP(DIRECTOR_MAIN);
+    const lV = sumV(DIRECTOR_LAUNCH), lS = sumP(DIRECTOR_LAUNCH);
+    const pS = sumP(DIRECTOR_PENDING);
+    return { id, mainData: DIRECTOR_MAIN, launchPosts: DIRECTOR_LAUNCH, hasInfluencers: true, mainViews: mV, mainSpend: mS, qrtViews: DIRECTOR_QRT_PAID_VIEWS, qrtCost: DIRECTOR_QRT_PAID_COST, launchViews: lV, launchSpend: lS, totalViews: lV + mV + DIRECTOR_QRT_PAID_VIEWS, totalSpend: lS + mS + DIRECTOR_QRT_PAID_COST + pS, pendingSpend: pS, pending: DIRECTOR_PENDING, med: median(DIRECTOR_MAIN.map(i => i.views)), influencerCount: DIRECTOR_MAIN.length };
   }
   return null;
 }
@@ -229,6 +238,15 @@ export default function CampaignXDetail({ campaignId, monthId }) {
           <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginBottom: 8 }}>
             <StatCard label="QRT Package Impressions" value={fmt(current.qrtViews)} sub={`208 creators · ${fmtD(SD2_QRT_PAID_COST)} total`} accent="var(--c-qrt)" />
             <StatCard label="Package CPM" value={"$" + cpm(SD2_QRT_PAID_COST, current.qrtViews)} accent="var(--c-cpm)" sub="208 paid QRTs as one deal" />
+          </div>
+        </>
+      )}
+      {current.id === "director" && (
+        <>
+          <SectionTitle icon="🔁">$30 QRT Package</SectionTitle>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginBottom: 8 }}>
+            <StatCard label="QRT Package Impressions" value={fmt(current.qrtViews)} sub={`189 creators · ${fmtD(DIRECTOR_QRT_PAID_COST)} total`} accent="var(--c-qrt)" />
+            <StatCard label="Package CPM" value={"$" + cpm(DIRECTOR_QRT_PAID_COST, current.qrtViews)} accent="var(--c-cpm)" sub="189 paid QRTs as one deal" />
           </div>
         </>
       )}

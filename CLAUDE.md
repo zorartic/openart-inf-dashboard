@@ -5,6 +5,7 @@ OpenArt influencer-marketing dashboard. Vanilla React + Vite SPA, no backend, al
 ## Stack
 - React 18 + Vite (no React Router — navigation is state in `App.jsx`)
 - Styling: CSS-in-JS via inline styles + CSS variables in `src/styles/global.css`
+- recharts (used only by the hidden `MonthlyTrendChart`; tree-shaken when unmounted)
 - No state libraries, no fetching, no tests
 
 ## Repo map
@@ -22,6 +23,9 @@ OpenArt influencer-marketing dashboard. Vanilla React + Vite SPA, no backend, al
   - `PlatformAura` — perimeter glow animation, tinted per platform
   - `Particles` — canvas particles, accepts `platform` prop for tint
   - `Bar`, `StatCard`, `CompareCard`, `SectionTitle`, `PageHeader`, `PlatformSwitcher`, `CampaignDropdown`, `AgencyBadge`
+  - `ThemeToggle` — fixed top-right light/dark switch, mounted in `App.jsx` so it appears on every page
+  - `charts/MonthlyTrendChart` (**hidden, kept in repo**) — recharts cumulative-impressions-vs-spend chart with All Platforms / Instagram-only toggle ($40 niche AI CPM reference line). To re-enable, re-import in `CampaignsCrossView`
+  - `ClaudeAnalysis` (**hidden, kept in repo**) — collapsible analysis card with animated Claude mark, designed to sit beneath `MonthlyTrendChart`. Re-import alongside the chart if bringing it back
 - `src/data/`
   - `campaigns.js` — X (Twitter) data + `CAMPAIGN_META` + `MONTHS`/`MONTH_ORDER` registries
   - `campaigns_ig.js` — IG data keyed by campaign id (`IG_CAMPAIGNS`)
@@ -35,7 +39,11 @@ OpenArt influencer-marketing dashboard. Vanilla React + Vite SPA, no backend, al
 - **Multi-month campaigns**: `X_STATS_MAP[id].byMonth[monthId]` in `platformUtils.js` holds the per-month data slice. `xStats(id, monthId)` returns the slice when `monthId` is passed, else the cumulative. `campaignStats(id, monthId)` in `CampaignXDetail.jsx` has per-campaign branches (see `sliceNB`/`sliceAIPA`).
 - When adding a new campaign or extending one across months, follow `.claude/skills/update_campaign/SKILL.md` — otherwise preview vs. drill-down totals will disagree.
 - Platform coverage: only `sd2`, `oaw` have all three platforms; `cb` has X+IG; everything else is X-only.
-- Campaign item shape (X): `{ name, views, price, comments?, reposts?, likes?, bookmarks?, link? }`. IG adds `agency`. YT drops engagement fields.
+- Campaign item shape (X): `{ name, views, price, comments?, reposts?, likes?, bookmarks?, link? }`.
+- Campaign item shape (IG, current): `{ name, totalViews, price, agency, posts: [{ platform: "ig"|"yt"|"tt", views, link }], carousel? }`. `totalViews` = sum of all post views across platforms (creators can have IG + cross-platform reposts under the same IG deal). `carousel: true` excludes the item from CPM math (still counts in spend) — used for IG carousels where impressions can't be tracked. Helpers `igItemViews()` and `igItemPosts()` in `campaigns_ig.js` handle both this schema and the legacy `{ name, views, price, agency, link }` shape (`CB_IG` is still on the legacy shape).
+- Campaign item shape (YT): `{ name, views, price, link }`. No engagement fields.
+- `CAMPAIGN_META[id].threadsDrafting: true` — shows a blue "Threads being drafted" pill on `CampaignsCrossView` and a corresponding info banner on `CampaignXDetail`'s launch-only branch (replaces the gold "Launch RT only" pill for that card). Use when a launch is live but creator threads haven't shipped yet.
+- "Launch RT only" pill on `CampaignsCrossView` auto-appears (no flag needed) for any X-only campaign with `hasInfluencers: false` and no IG/YT data.
 
 ## Color coding (keep consistent)
 - `--c-views` (mint) — impressions/views everywhere
@@ -47,7 +55,18 @@ OpenArt influencer-marketing dashboard. Vanilla React + Vite SPA, no backend, al
 - Platform colors (from `PLATFORM_COLORS`) are ONLY for platform branding (aura, switcher, tile borders, gradient titles). Never swap the coherent data colors for a platform color.
 
 ## CPM thresholds
-good <$5, ok <$15, bad ≥$15. CPE = price ÷ (comments + reposts + likes + bookmarks).
+- X (`Bar.jsx`): good <$5, ok <$15, bad ≥$15. CPE = price ÷ (comments + reposts + likes + bookmarks).
+- IG / YT individual videos (`CampaignIGDetail.jsx` / `CampaignYTDetail.jsx`): good <$50, ok <$100, bad ≥$100. Higher thresholds reflect Reels/Shorts industry rates.
+
+## Theme system
+- Light/dark via `data-theme` attribute on `<html>`. `index.html` has an inline init script that reads `localStorage["theme"]` (default `"dark"`) and applies it before React mounts to avoid FOUC.
+- `ThemeToggle` writes back to localStorage and updates `data-theme` on each click.
+- All themable values are CSS variables in `src/styles/global.css`, scoped under `:root, [data-theme="dark"]` and `[data-theme="light"]`. Use the tokens below instead of hardcoded `rgba(...)`:
+  - **Surface highlights** `--hl-1..4` — subtle fills/borders. White-on-dark in dark mode, black-on-cream in light. Replace any `rgba(255,255,255,0.0X)` you see with the matching `--hl-N`.
+  - **Elevated surfaces** `--surface-elev` (card body — Platform overview cards, CampaignCrossView platform tiles, MonthCrossView tiles, Bar hover tooltip), `--surface-input` (search/dropdown trigger backgrounds), `--surface-popover` (fully opaque dropdown popover).
+  - **Aura tokens** `--aura-1..3`, `--aura-floor` (golden brand aura), `--aura-platform-floor` (per-platform `PlatformAura` bottom wash — dark in dark mode, cream in light).
+  - **Shadows** `--shadow-card`, `--shadow-elevated` — theme-aware drop shadows.
+- Many older inline-styled components still hardcode `rgba(255,255,255,X)` and won't auto-flip; they look acceptable on cream but aren't perfect. When touching one, swap to `--hl-N`.
 
 ## Navigation model
 Routing uses a history stack in `App.jsx`: `navigate(target, param, extra)` pushes, `onBack` pops, `onHome` clears to landing. Every page receives `{ onBack, onHome, canBack }` via `PageNav` at top-left.
