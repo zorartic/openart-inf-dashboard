@@ -3,7 +3,7 @@ import StatCard from "./StatCard";
 import SectionTitle from "./SectionTitle";
 import AgencyBadge, { AGENCY_COLORS } from "./AgencyBadge";
 import { igStats, igAgencyBreakdown } from "../data/platformUtils";
-import { igItemViews, igItemPosts } from "../data/campaigns_ig";
+import { igItemViews, igItemPosts, igServiceFees, igServiceFeeTotal } from "../data/campaigns_ig";
 import { fmt, fmtD, fmtShort, cpm } from "../data/utils";
 
 const PLATFORM_LABELS = { ig: "Instagram", yt: "YouTube", tt: "TikTok" };
@@ -104,6 +104,9 @@ export default function CampaignIGDetail({ campaignId }) {
   if (sorted.length === 0) return <div className="data-card" style={{ color: "var(--text-muted)" }}>No Instagram data for this campaign.</div>;
   const cpmStr = stats.cpmViews > 0 ? cpm(stats.cpmSpend, stats.cpmViews) : null;
   const hasCarousel = stats.data.some(i => i.carousel);
+  const fees = igServiceFees(campaignId);
+  const feeTotal = igServiceFeeTotal(campaignId);
+  const feeEntries = Object.entries(fees).sort((a, b) => b[1] - a[1]);
 
   return (
     <div className="fade-in">
@@ -125,6 +128,28 @@ export default function CampaignIGDetail({ campaignId }) {
                 <div style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 4 }}>{data.count} creators · {fmtD(data.spend)}</div>
               </div>
             ))}
+          </div>
+        </>
+      )}
+
+      {feeEntries.length > 0 && (
+        <>
+          <SectionTitle icon="🧾">Service Fees by Agency</SectionTitle>
+          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 12 }}>
+            {feeEntries.map(([agency, fee]) => (
+              <div key={agency} className="data-card" style={{ minWidth: 150 }}>
+                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", color: AGENCY_COLORS[agency] || "#94a3b8", marginBottom: 6, fontFamily: "var(--font-body)" }}>{agency}</div>
+                <div style={{ fontSize: 20, fontWeight: 700, color: "var(--c-spend)", fontFamily: "var(--font-display)" }}>{fmtD(fee)}</div>
+                <div style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 4 }}>
+                  {agencies[agency] ? `${(fee / agencies[agency].spend * 100).toFixed(1)}% of creator spend` : "service fee"}
+                </div>
+              </div>
+            ))}
+          </div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginBottom: 12 }}>
+            <StatCard label="Total Service Fees" value={fmtD(feeTotal)} accent="var(--c-spend)" sub={`${feeEntries.length} agenc${feeEntries.length === 1 ? "y" : "ies"}`} />
+            <StatCard label="Spend + Service Fees" value={fmtD(stats.spend + feeTotal)} accent="var(--c-spend)" sub="All-in IG cost" />
+            {stats.cpmViews > 0 && <StatCard label="All-in CPM" value={"$" + cpm(stats.cpmSpend + feeTotal, stats.cpmViews)} accent="var(--c-cpm)" sub="Incl. service fees" />}
           </div>
         </>
       )}
